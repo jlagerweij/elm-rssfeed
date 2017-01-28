@@ -1,0 +1,7 @@
+.gradle/
+elm-stuff/
+node_modules/
+tmp/
+dist/
+build/
+elm-taco-master/

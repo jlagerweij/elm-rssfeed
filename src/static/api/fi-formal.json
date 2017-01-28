@@ -1,0 +1,17 @@
+{
+    "site-title": "Taco-ajatusmallin 🌮 esittely",
+    "page-title-home": "Etusivu",
+    "page-title-settings": "Asetukset",
+    "language-selection-heading": "Valitse kieli",
+    "commits-heading": "Koodimuutokset repositorioon",
+    "stargazers-heading": "Tähden antaneet",
+    "status-loading": "Ladataan",
+    "status-network-error": "Yhteysvirhe",
+    "commits-refresh": "Päivitä",
+    "footer-github-before": "Näe koodi ja lisää tähti",
+    "footer-github-after": "issa",
+    "timeformat-zero-minutes": "Tovi sitten",
+    "timeformat-one-minute-ago": "Minuutti sitten",
+    "timeformat-n-minutes-ago-before": "Suunnilleen",
+    "timeformat-n-minutes-ago-after": "minuuttia sitten"
+}
