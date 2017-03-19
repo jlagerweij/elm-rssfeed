@@ -18,20 +18,6 @@ type alias Item =
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( Model RemoteData.NotAsked, getItems )
-
-
-type Msg
-    = GetItems
-
-
-getItems : Cmd Msg
-getItems =
-    Cmd.none
-
-
 feedEntryView : Html a
 feedEntryView =
     li [] [ a [ href "test", target "_blank" ] [ text "click me too" ] ]

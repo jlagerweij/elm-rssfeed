@@ -2,23 +2,23 @@ module App exposing (..)
 
 import FeedBox exposing (Item, feedBoxView, feedBoxView1)
 import Html exposing (..)
-import Html.Attributes exposing (href, target, id)
+import Html.Attributes exposing (href, id, target)
 import Http
-import Json.Decode exposing (Decoder, string)
-import Json.Decode.Pipeline exposing (decode, requiredAt)
-import RemoteData exposing (RemoteData(Failure, Loading, NotAsked, Success), WebData)
+import Json.Decode exposing (Decoder, decodeValue, field, list, maybe, nullable, string, succeed, value)
+import Json.Decode.Extra exposing ((|:))
+import RemoteData exposing (RemoteData(Failure), RemoteData(Loading), RemoteData(NotAsked), RemoteData(Success), WebData)
 import Styling.Css as Css
-import Styling.HtmlCss exposing (class, nClass, bClass)
+import Styling.HtmlCss exposing (bClass, class, nClass)
 
 
 type alias Model =
-    { feeds : WebData (List Feeds)
+    { feeds : WebData (List FeedConfig)
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model RemoteData.NotAsked, getFeeds )
+    ( Model RemoteData.Loading, getFeedConfigs )
 
 
 subscriptions : Model -> Sub Msg
@@ -27,45 +27,120 @@ subscriptions _ =
 
 
 type Msg
-    = FeedsResponse (WebData (List Feeds))
+    = FeedConfigsResponse (WebData (List FeedConfig))
+    | SingleFeedResponse FeedConfig (WebData (List FeedItem))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        FeedsResponse response ->
-            ( { model | feeds = response }
-            , Cmd.none
-            )
+        FeedConfigsResponse feedConfigsWebData ->
+            case feedConfigsWebData of
+                Success feeds ->
+                    ( { model | feeds = feedConfigsWebData }
+                    , getFeeds feeds
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        SingleFeedResponse feedConfig singleFeedWebData ->
+            case singleFeedWebData of
+                Success feedItems ->
+                    case model.feeds of
+                        Success _ ->
+                            let
+                                x =
+                                    RemoteData.map (\feedConfigs -> updateFeedConfigs feedConfig.id singleFeedWebData feedConfigs) model.feeds
+                            in
+                                ( { model | feeds = x }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+
+updateFeedConfigs : String -> WebData (List FeedItem) -> List FeedConfig -> List FeedConfig
+updateFeedConfigs feedConfigId feedItemList feedConfigs =
+    List.map (\feedConfig -> updateFeedItems feedConfigId feedItemList feedConfig) feedConfigs
+
+
+updateFeedItems : String -> WebData (List FeedItem) -> FeedConfig -> FeedConfig
+updateFeedItems feedConfigId feedItemList feedConfig =
+    if feedConfig.id == feedConfigId then
+        { feedConfig | items = Just feedItemList }
+    else
+        feedConfig
 
 
 
--- Feeds
+--
 
 
-type alias Feeds =
-    { id : String
-    , url : String
+type alias FeedItem =
+    { title : String
+    , link : String
     }
 
 
-getFeeds : Cmd Msg
-getFeeds =
-    Http.get "/api/feeds.json" decodeFeedsList
+getFeeds : List FeedConfig -> Cmd Msg
+getFeeds feedConfigs =
+    feedConfigs
+        |> List.map (\f -> getFeed f)
+        |> Cmd.batch
+
+
+getFeed : FeedConfig -> Cmd Msg
+getFeed feedConfig =
+    Http.get ("/api/" ++ feedConfig.id ++ ".json") decodeSingleFeed
         |> RemoteData.sendRequest
-        |> Cmd.map FeedsResponse
+        |> Cmd.map (SingleFeedResponse feedConfig)
 
 
-decodeFeed : Decoder Feeds
-decodeFeed =
-    decode Feeds
-        |> requiredAt [ "id" ] string
-        |> requiredAt [ "url" ] string
+decodeSingleFeed : Decoder (List FeedItem)
+decodeSingleFeed =
+    Json.Decode.list decodeSingleFeedItem
 
 
-decodeFeedsList : Decoder (List Feeds)
-decodeFeedsList =
-    Json.Decode.list decodeFeed
+decodeSingleFeedItem : Decoder FeedItem
+decodeSingleFeedItem =
+    succeed FeedItem
+        |: field "title" string
+        |: field "link" string
+
+
+
+--
+-- FeedConfig
+
+
+type alias FeedConfig =
+    { id : String
+    , url : String
+    , items : Maybe (WebData (List FeedItem))
+    }
+
+
+getFeedConfigs : Cmd Msg
+getFeedConfigs =
+    Http.get "/api/feeds.json" decodeFeedConfigs
+        |> RemoteData.sendRequest
+        |> Cmd.map FeedConfigsResponse
+
+
+decodeFeedConfigs : Decoder (List FeedConfig)
+decodeFeedConfigs =
+    Json.Decode.list decodeFeedConfig
+
+
+decodeFeedConfig : Decoder FeedConfig
+decodeFeedConfig =
+    succeed FeedConfig
+        |: field "id" string
+        |: field "url" string
+        |: maybe (field "items" (succeed (RemoteData.NotAsked)))
 
 
 view : Model -> Html msg
@@ -84,7 +159,7 @@ view model =
             viewFeeds feeds
 
 
-viewFeeds : List Feeds -> Html msg
+viewFeeds : List FeedConfig -> Html msg
 viewFeeds feedsList =
     div [ class [ Css.Feeder ] [ "pure-g" ] ]
         [ div [ class [ Css.Column ] [ "pure-u-1-3" ], id "left" ]

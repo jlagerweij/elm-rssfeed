@@ -1,0 +1,94 @@
+[
+  {
+    "id": "tweakers-nieuws",
+    "url": "http://tweakers.net/feeds/nieuws.xml"
+  },
+  {
+    "id": "tweakers-meuktracker",
+    "url": "http://tweakers.net/feeds/meuktracker.xml"
+  },
+  {
+    "id": "webwereld",
+    "url": "http://feeds.webwereld.nl/webwereld"
+  },
+  {
+    "id": "theregister",
+    "url": "http://www.theregister.co.uk/headlines.atom"
+  },
+  {
+    "id": "nosjournaal",
+    "url": "http://feeds.nos.nl/nosjournaal"
+  },
+  {
+    "id": "telegraaf-sport",
+    "url": "http://www.telegraaf.nl/rss/telesport.xml"
+  },
+  {
+    "id": "ycombinator",
+    "url": "https://news.ycombinator.com/rss"
+  },
+  {
+    "id": "slashdot",
+    "url": "http://rss.slashdot.org/Slashdot/slashdot"
+  },
+  {
+    "id": "foknieuws",
+    "url": "http://rss.fok.nl/feeds/nieuws"
+  },
+  {
+    "id": "nu-gadgets",
+    "url": "http://www.nu.nl/rss/gadgets"
+  },
+  {
+    "id": "nu-algemeen",
+    "url": "http://www.nu.nl/rss/algemeen"
+  },
+  {
+    "id": "telegraaf",
+    "url": "http://www.telegraaf.nl/rss"
+  },
+  {
+    "id": "infoq",
+    "url": "http://www.infoq.com/rss/rss.action?token=JtvZBqKk5Ep8CPJedwgPjaEfswT20aqZ"
+  },
+  {
+    "id": "theserverside",
+    "url": "http://www.theserverside.com/rss/forum.tss?forum_id=2"
+  },
+  {
+    "id": "dagaanbieding",
+    "url": "http://www.dagaanbieding.net/rss.xml"
+  },
+  {
+    "id": "telegraaf-digitaal",
+    "url": "http://www.telegraaf.nl/rss/digitaal.xml"
+  },
+  {
+    "id": "telegraaf-binnenland",
+    "url": "http://www.telegraaf.nl/rss/binnenland.xml"
+  },
+  {
+    "id": "motormeuk",
+    "url": "http://www.motormeuk.nl/rss"
+  },
+  {
+    "id": "nu-formule-1",
+    "url": "http://www.nu.nl/rss/formule-1"
+  },
+  {
+    "id": "gpupdate",
+    "url": "http://feeds.gpupdate.net/nl/rss.xml"
+  },
+  {
+    "id": "raceexpress",
+    "url": "http://www.racexpress.nl/rsscontent/content.xml"
+  },
+  {
+    "id": "autoweek-nieuws",
+    "url": "http://www.autoweek.nl/rss/autonieuws"
+  },
+  {
+    "id": "autoweek-weblog",
+    "url": "http://www.autoweek.nl/rss/weblog"
+  }
+]
