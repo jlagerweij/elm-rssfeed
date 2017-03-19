@@ -7,6 +7,10 @@ import Styling.Css as Css
 import Styling.HtmlCss exposing (bClass, class, nClass)
 
 
+type alias FeedItemListWebData =
+    WebData (List FeedItem)
+
+
 type alias FeedItem =
     { title : String
     , link : String

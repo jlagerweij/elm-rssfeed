@@ -1,6 +1,7 @@
 module App exposing (..)
 
-import FeedConfigs exposing (FeedConfigList, viewFeeds)
+import FeedConfigs exposing (FeedConfig, FeedConfigListWebData, viewFeeds)
+import FeedItem exposing (FeedItem, FeedItemListWebData)
 import Html exposing (..)
 import Http
 import Json.Decode exposing (Decoder, decodeValue, field, list, maybe, nullable, string, succeed, value)
@@ -9,7 +10,7 @@ import RemoteData exposing (RemoteData(Failure), RemoteData(Loading), RemoteData
 
 
 type alias Model =
-    { feeds : FeedConfigList
+    { feedConfigWebData : FeedConfigListWebData
     }
 
 
@@ -24,8 +25,8 @@ subscriptions _ =
 
 
 type Msg
-    = FeedConfigsResponse (WebData (List FeedConfig))
-    | SingleFeedResponse FeedConfig (WebData (List FeedItem))
+    = FeedConfigsResponse FeedConfigListWebData
+    | SingleFeedResponse FeedConfig FeedItemListWebData
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -34,7 +35,7 @@ update msg model =
         FeedConfigsResponse feedConfigsWebData ->
             case feedConfigsWebData of
                 Success feeds ->
-                    ( { model | feeds = feedConfigsWebData }
+                    ( { model | feedConfigWebData = feedConfigsWebData }
                     , getFeeds feeds
                     )
 
@@ -44,16 +45,11 @@ update msg model =
         SingleFeedResponse feedConfig singleFeedWebData ->
             case singleFeedWebData of
                 Success feedItems ->
-                    case model.feeds of
-                        Success _ ->
-                            let
-                                x =
-                                    RemoteData.map (\feedConfigs -> updateFeedConfigs feedConfig.id singleFeedWebData feedConfigs) model.feeds
-                            in
-                                ( { model | feeds = x }, Cmd.none )
-
-                        _ ->
-                            ( model, Cmd.none )
+                    let
+                        newfeedConfigWebData =
+                            RemoteData.map (\feedConfigs -> updateFeedConfigs feedConfig.id singleFeedWebData feedConfigs) model.feedConfigWebData
+                    in
+                        ( { model | feedConfigWebData = newfeedConfigWebData }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -74,12 +70,6 @@ updateFeedItems feedConfigId feedItemList feedConfig =
 
 
 --
-
-
-type alias FeedItem =
-    { title : String
-    , link : String
-    }
 
 
 getFeeds : List FeedConfig -> Cmd Msg
@@ -113,13 +103,6 @@ decodeSingleFeedItem =
 -- FeedConfig
 
 
-type alias FeedConfig =
-    { id : String
-    , url : String
-    , items : Maybe (WebData (List FeedItem))
-    }
-
-
 getFeedConfigs : Cmd Msg
 getFeedConfigs =
     Http.get "/api/feeds.json" decodeFeedConfigs
@@ -137,12 +120,13 @@ decodeFeedConfig =
     succeed FeedConfig
         |: field "id" string
         |: field "url" string
+        |: field "location" string
         |: maybe (field "items" (succeed (RemoteData.NotAsked)))
 
 
 view : Model -> Html msg
 view model =
-    case model.feeds of
+    case model.feedConfigWebData of
         NotAsked ->
             text "Initializing"
 

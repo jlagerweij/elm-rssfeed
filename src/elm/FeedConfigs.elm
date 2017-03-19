@@ -1,7 +1,7 @@
 module FeedConfigs exposing (..)
 
 import FeedBox exposing (feedBoxView)
-import FeedItem exposing (FeedItem, viewFeed)
+import FeedItem exposing (FeedItem, FeedItemListWebData, viewFeed)
 import Html exposing (..)
 import Html.Attributes exposing (href, id, target)
 import RemoteData exposing (RemoteData(Success), WebData)
@@ -9,32 +9,31 @@ import Styling.Css as Css
 import Styling.HtmlCss exposing (bClass, class, nClass)
 
 
-type alias FeedConfigList =
+type alias FeedConfigListWebData =
     WebData (List FeedConfig)
 
 
 type alias FeedConfig =
     { id : String
     , url : String
-    , items : Maybe (WebData (List FeedItem))
+    , location : String
+    , items : Maybe FeedItemListWebData
     }
 
 
 viewFeeds : List FeedConfig -> Html msg
-viewFeeds feedsList =
+viewFeeds feedConfigList =
     div [ class [ Css.Feeder ] [ "pure-g" ] ]
-        [ div [ class [ Css.Column ] [ "pure-u-1-3" ], id "left" ]
-            (List.map (\feed -> viewFeed feed.id feed.items) feedsList)
-        , div [ class [ Css.Column ] [ "pure-u-1-3" ], id "middle" ]
-            [ feedBoxView
-            , feedBoxView
-            , feedBoxView
-            , feedBoxView
-            ]
-        , div [ class [ Css.Column ] [ "pure-u-1-3" ], id "right" ]
-            [ feedBoxView
-            , feedBoxView
-            , feedBoxView
-            , feedBoxView
-            ]
+        [ viewFeedItemsInColumn "left" feedConfigList
+        , viewFeedItemsInColumn "middle" feedConfigList
+        , viewFeedItemsInColumn "right" feedConfigList
         ]
+
+
+viewFeedItemsInColumn : String -> List FeedConfig -> Html msg
+viewFeedItemsInColumn columnName feedConfigList =
+    div [ class [ Css.Column ] [ "pure-u-1-3" ], id columnName ]
+        (feedConfigList
+            |> List.filter (\feedConfig -> feedConfig.location == columnName)
+            |> List.map (\feedConfig -> viewFeed feedConfig.id feedConfig.items)
+        )
