@@ -1,6 +1,5 @@
 module FeedConfigs exposing (..)
 
-import FeedBox exposing (feedBoxView)
 import FeedItem exposing (FeedItem, FeedItemListWebData, viewFeed)
 import Html exposing (..)
 import Html.Attributes exposing (href, id, target)

@@ -47,7 +47,7 @@ update msg model =
                 Success feedItems ->
                     let
                         newfeedConfigWebData =
-                            RemoteData.map (\feedConfigs -> updateFeedConfigs feedConfig.id singleFeedWebData feedConfigs) model.feedConfigWebData
+                            RemoteData.map (updateFeedConfigs feedConfig.id singleFeedWebData) model.feedConfigWebData
                     in
                         ( { model | feedConfigWebData = newfeedConfigWebData }, Cmd.none )
 
@@ -75,13 +75,13 @@ updateFeedItems feedConfigId feedItemList feedConfig =
 getFeeds : List FeedConfig -> Cmd Msg
 getFeeds feedConfigs =
     feedConfigs
-        |> List.map (\f -> getFeed f)
+        |> List.map getFeed
         |> Cmd.batch
 
 
 getFeed : FeedConfig -> Cmd Msg
 getFeed feedConfig =
-    Http.get ("/api/" ++ feedConfig.id ++ ".json") decodeSingleFeed
+    Http.get ("/api/feed-" ++ feedConfig.id ++ ".json") decodeSingleFeed
         |> RemoteData.sendRequest
         |> Cmd.map (SingleFeedResponse feedConfig)
 
