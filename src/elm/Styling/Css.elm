@@ -24,19 +24,19 @@ css =
             , backgroundColor mainBackgroundColor
             , color mainTextColor
             ]
-        , (.) PullRight
+        , class PullRight
             [ float right ]
-        , (.) Feeder []
-        , (.) Column
+        , class Feeder []
+        , class Column
             [ width (pc 33.3)
             , descendants
-                [ (.) Box
+                [ class Box
                     [ marginBottom (px 10)
                     , marginLeft (px 5)
                     , marginRight (px 5)
                     , backgroundColor mainBackgroundColor
                     , descendants
-                        [ (.) Header
+                        [ class Header
                             [ color (hex "b9133c")
                             , padding4 (px 3) (px 3) (px 3) (px 6)
                             , backgroundColor mainBackgroundColor
@@ -48,7 +48,7 @@ css =
                                     ]
                                 ]
                             ]
-                        , (.) RssFeedClass
+                        , class RssFeedClass
                             [ descendants
                                 [ a
                                     [ textDecoration none
