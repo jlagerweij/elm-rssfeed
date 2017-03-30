@@ -81,7 +81,7 @@ getFeeds feedConfigs =
 
 getFeed : FeedConfig -> Cmd Msg
 getFeed feedConfig =
-    Http.get ("/api/feed-" ++ feedConfig.id ++ ".json") decodeSingleFeed
+    Http.get ("//j.lagerwey.net/rss/elm/api/feed-" ++ feedConfig.id ++ ".json") decodeSingleFeed
         |> RemoteData.sendRequest
         |> Cmd.map (SingleFeedResponse feedConfig)
 
@@ -105,7 +105,7 @@ decodeSingleFeedItem =
 
 getFeedConfigs : Cmd Msg
 getFeedConfigs =
-    Http.get "/api/feeds.json" decodeFeedConfigs
+    Http.get "//j.lagerwey.net/rss/elm/api/feeds.json" decodeFeedConfigs
         |> RemoteData.sendRequest
         |> Cmd.map FeedConfigsResponse
 

@@ -14,8 +14,8 @@ task elmPackageInstall(type: Exec, dependsOn: npmInstall) {
   outputs.dir file('elm-stuff')
 }
 
-task webpack(type: NodeTask, dependsOn: elmPackageInstall) {
-  script = file('node_modules/webpack/bin/webpack')
+task webpack(type: NpmTask, dependsOn: elmPackageInstall) {
+  args = ['run', 'build']
 }
 
 task webpackDevServer(type: NodeTask, dependsOn: elmPackageInstall) {
