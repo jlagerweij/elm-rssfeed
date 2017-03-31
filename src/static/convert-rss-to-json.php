@@ -16,9 +16,35 @@ class Item
 
 function addItem($title, $link, $feed)
 {
+  if ($title == "") {
+    echo "WARNING: Empty title!";
+  }
+  if ($link == "") {
+    echo "WARNING: Empty link!";
+  }
+
   $item = new Item($title, $link);
   $feed[] = $item;
   return array($item, $feed);
+}
+
+function getLinkAndTitleFromEntry($feed, $xml)
+{
+  $children = $xml->children();
+  foreach($children as $child) {
+    if ($child->getName() === 'link') {
+      $link = (string)$child->attributes;
+    }
+    if ($child->getName() === 'title') {
+      $title = (string)$child->title;
+    }
+  }
+
+  echo "item Link: $link\n";
+  if (count($feed) < 10) {
+    list($item, $feed) = addItem($title, $link, $feed);
+  }
+
 }
 
 foreach ($feedConfigs as $feedConfig) {
@@ -26,7 +52,6 @@ foreach ($feedConfigs as $feedConfig) {
 
   $xml = file_get_contents($feedConfig->url);
   if (strpos($xml, 'ISO-8859-15') !== false || strpos($xml, 'iso-8859-15') !== false) {
-    echo "Encoding: " . mb_detect_encoding($xml) . "\n";
     $xml = iconv("ISO-8859-15", "UTF-8", $xml);
     $xml = str_replace("ISO-8859-15", "UTF-8", $xml);
     $xml = str_replace("iso-8859-15", "UTF-8", $xml);
@@ -42,8 +67,9 @@ foreach ($feedConfigs as $feedConfig) {
     if (count($items) == 0) {
       $entries = $rss->children();
       foreach ($entries as $entry) {
+        $entries = $rss->children();
         if ($entry->getName() === 'item') {
-          $link = (string)$entry->link->attributes['href'];
+          $link = (string)$entry->link;
           $title = (string)$entry->title;
 
           if (count($feed) < 10) {
@@ -51,7 +77,7 @@ foreach ($feedConfigs as $feedConfig) {
           }
         }
         if ($entry->getName() === 'entry') {
-          $link = (string)$entry->link->attributes['href'];
+          $link = (string)$entry->link['href'];
           $title = (string)$entry->title;
 
           if (count($feed) < 10) {
