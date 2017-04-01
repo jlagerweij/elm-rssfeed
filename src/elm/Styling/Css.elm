@@ -28,8 +28,7 @@ css =
             [ float right ]
         , class Feeder []
         , class Column
-            [ width (pc 33.3)
-            , descendants
+            [ descendants
                 [ class Box
                     [ marginBottom (px 10)
                     , marginLeft (px 5)

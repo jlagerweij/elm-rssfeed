@@ -22,7 +22,7 @@ type alias FeedConfig =
 
 viewFeeds : List FeedConfig -> Html msg
 viewFeeds feedConfigList =
-    div [ class [ Css.Feeder ] [ "pure-g" ] ]
+    div [ class [ Css.Feeder ] [] ]
         [ viewFeedItemsInColumn "left" feedConfigList
         , viewFeedItemsInColumn "middle" feedConfigList
         , viewFeedItemsInColumn "right" feedConfigList
