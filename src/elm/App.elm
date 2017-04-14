@@ -1,7 +1,8 @@
 module App exposing (..)
 
-import FeedConfigs exposing (FeedConfig, FeedConfigListWebData, viewFeeds)
-import FeedItem exposing (FeedItem, FeedItemListWebData)
+import FeedConfigs.View exposing (viewFeeds)
+import FeedConfigs.Types exposing (FeedConfig, FeedConfigListWebData)
+import FeedItem.Types exposing (FeedItem, FeedItemListWebData)
 import Html exposing (..)
 import Http
 import Json.Decode exposing (Decoder, decodeValue, field, list, maybe, nullable, string, succeed, value)

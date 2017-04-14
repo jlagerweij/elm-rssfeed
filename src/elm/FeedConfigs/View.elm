@@ -1,23 +1,10 @@
-module FeedConfigs exposing (..)
+module FeedConfigs.View exposing (..)
 
-import FeedItem exposing (FeedItem, FeedItemListWebData, viewFeed)
-import Html exposing (..)
-import Html.Attributes exposing (href, id, target)
-import RemoteData exposing (RemoteData(Success), WebData)
+import FeedConfigs.Types exposing (FeedConfig)
+import FeedItem exposing (viewFeed)
+import Html exposing (Html, div)
+import Html.Attributes exposing (class, id)
 import Styling.Css as Css
-import Styling.HtmlCss exposing (bClass, class, nClass)
-
-
-type alias FeedConfigListWebData =
-    WebData (List FeedConfig)
-
-
-type alias FeedConfig =
-    { id : String
-    , url : String
-    , location : String
-    , items : Maybe FeedItemListWebData
-    }
 
 
 viewFeeds : List FeedConfig -> Html msg
