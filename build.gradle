@@ -1,5 +1,5 @@
 plugins {
-  id "com.moowork.node" version "1.1.0"
+  id "com.moowork.node" version "1.1.1"
 }
 
 node {
@@ -8,26 +8,32 @@ node {
   download = true
 }
 
-task elmPackageInstall(type: Exec, dependsOn: npmInstall) {
+task clean {
+  delete 'node_modules'
+  delete 'elm-stuff'
+  delete 'build'
+}
+
+task elmPackageInstall(type: Exec, dependsOn: yarn_install) {
   commandLine "node_modules/.bin/elm-package install -y".split(' ')
   inputs.file file('elm-package.json')
   outputs.dir file('elm-stuff')
 }
 
-task webpack(type: NpmTask, dependsOn: elmPackageInstall) {
+task webpack(type: YarnTask, dependsOn: elmPackageInstall) {
   args = ['run', 'build']
 }
 
 task webpackDevServer(type: NodeTask, dependsOn: elmPackageInstall) {
   script = file('node_modules/webpack-dev-server/bin/webpack-dev-server')
-  args ["--hot"]
+  args["--hot"]
 }
 
 task dist(type: Copy, dependsOn: webpack) {
-  from ('build/web/static') {
+  from('build/web/static') {
     into 'static'
   }
-  from ('src/static/convert-rss-to-json.php') {
+  from('src/static/convert-rss-to-json.php') {
     into '/'
   }
   from 'build/web/index.html'

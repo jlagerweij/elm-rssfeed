@@ -3,8 +3,9 @@ module FeedConfigs.View exposing (..)
 import FeedConfigs.Types exposing (FeedConfig)
 import FeedItem exposing (viewFeed)
 import Html exposing (Html, div)
-import Html.Attributes exposing (class, id)
+import Html.Attributes exposing (id)
 import Styling.Css as Css
+import Styling.HtmlCss exposing (class)
 
 
 viewFeeds : List FeedConfig -> Html msg
