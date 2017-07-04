@@ -1,0 +1,9 @@
+{
+  "short_name": "Lagerwey RSS",
+  "name": "Lagerwey RSS",
+  "start_url": "/rss/elm/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1d1d1d",
+  "theme_color": "#014C93"
+}
