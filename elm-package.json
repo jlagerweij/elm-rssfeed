@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "summary": "🌮 — a simple concept for managing common information in large Elm SPAs",
-  "repository": "https://github.com/ohanhi/elm-taco.git",
-  "license": "BSD3",
+  "summary": "RSS feed reader in Elm",
+  "repository": "https://github.com/jlagerweij/elm-rssfeed.git",
+  "license": "MIT",
   "source-directories": [
     "src/elm"
   ],
