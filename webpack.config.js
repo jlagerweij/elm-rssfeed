@@ -75,25 +75,17 @@ if (TARGET_ENV === 'development') {
     module: {
       rules: [{
           test: /\.elm$/,
-          exclude: [/elm-stuff/, /node_modules/, /Stylesheets\.elm/],
+          exclude: [/elm-stuff/, /node_modules/],
           use: [
             "elm-hot-loader",
             "elm-webpack-loader?verbose=true&warn=true&debug=true"
           ]
         },
         {
-          test: /Stylesheets\.elm$/,
-          use: [
-            'style-loader',
-            'css-loader',
-            'elm-css-webpack-loader'
-          ]
-        },
-        {
           test: /\.(css|scss)$/,
           use: [
             'style-loader',
-            'css-loader',
+            { loader: 'css-loader', options: { importLoaders: 1 } },
             'postcss-loader',
             'sass-loader'
           ]
@@ -115,7 +107,7 @@ if (TARGET_ENV === 'production') {
     module: {
       rules: [{
           test: /\.elm$/,
-          exclude: [/elm-stuff/, /node_modules/, /Stylesheets\.elm/],
+          exclude: [/elm-stuff/, /node_modules/],
           use: 'elm-webpack-loader'
         },
         {
@@ -126,16 +118,6 @@ if (TARGET_ENV === 'production') {
               'css-loader',
               'postcss-loader',
               'sass-loader'
-            ]
-          })
-        },
-        {
-          test: /Stylesheets\.elm$/,
-          use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: [
-              'css-loader',
-              'elm-css-webpack-loader'
             ]
           })
         }
