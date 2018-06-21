@@ -41,13 +41,13 @@ task dist(type: Copy, dependsOn: webpack) {
 }
 
 task deployStatic(type: Exec, dependsOn: dist) {
-  commandLine 'scp -r build/dist/static elmo:/hdd/web/j/rss/elm/'.split(" ")
+  commandLine 'scp -r build/dist/static ernie:/volume1/web/j/rss/elm/'.split(" ")
 }
 task deployHtml(type: Exec, dependsOn: dist) {
-  commandLine 'scp -r build/dist/index.html elmo:/hdd/web/j/rss/elm/'.split(" ")
+  commandLine 'scp -r build/dist/index.html ernie:/volume1/web/j/rss/elm/'.split(" ")
 }
 task deployConvertScript(type: Exec, dependsOn: dist) {
-  commandLine 'scp -r build/dist/convert-rss-to-json.php elmo:/hdd/web/j/rss/elm/'.split(" ")
+  commandLine 'scp -r build/dist/convert-rss-to-json.php ernie:/volume1/web/j/rss/elm/'.split(" ")
 }
 task deploy(dependsOn: [deployStatic, deployHtml, deployConvertScript]) {
 
