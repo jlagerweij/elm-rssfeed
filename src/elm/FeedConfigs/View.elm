@@ -5,7 +5,7 @@ import FeedItem exposing (viewFeed)
 import Html exposing (Html, div)
 import Html.Attributes exposing (id)
 import Tachyons exposing (classes)
-import Tachyons.Classes exposing (dt, dt__fixed, dtc_l, dtc_m, pl3, pv4, sans_serif, tc)
+import Tachyons.Classes exposing (dt, dt__fixed, dtc, pl3, pv4, sans_serif, tc)
 
 
 viewFeeds : List FeedConfig -> Html msg
@@ -19,7 +19,7 @@ viewFeeds feedConfigList =
 
 viewFeedItemsInColumn : String -> List FeedConfig -> Html msg
 viewFeedItemsInColumn columnName feedConfigList =
-    div [ classes [ dtc_l, dtc_m, pv4, pl3 ], id columnName ]
+    div [ classes [ dtc, pv4, pl3 ], id columnName ]
         (feedConfigList
             |> List.filter (\feedConfig -> feedConfig.location == columnName)
             |> List.map (\feedConfig -> viewFeed feedConfig.id feedConfig.items)
