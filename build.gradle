@@ -3,8 +3,7 @@ plugins {
 }
 
 node {
-  version = '8.11.3'
-  yarnVersion = '1.7.0'
+  version = '10.8.0'
   download = true
 }
 
@@ -14,13 +13,13 @@ task clean {
   delete 'build'
 }
 
-task elmPackageInstall(type: Exec, dependsOn: yarn_install) {
+task elmPackageInstall(type: Exec, dependsOn: npmInstall) {
   commandLine "node_modules/.bin/elm-package install -y".split(' ')
   inputs.file file('elm-package.json')
   outputs.dir file('elm-stuff')
 }
 
-task webpack(type: YarnTask, dependsOn: elmPackageInstall) {
+task webpack(type: NpmTask, dependsOn: elmPackageInstall) {
   args = ['run', 'build']
 }
 

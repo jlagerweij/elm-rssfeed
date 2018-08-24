@@ -15,11 +15,9 @@ var outputFilename = TARGET_ENV === 'production' ? '[name].js' : '[name].js';
 
 // common webpack config
 var commonConfig = {
-
   output: {
     path: outputPath,
     filename: path.join('static/js/', outputFilename),
-    // publicPath: '/'
   },
 
   resolve: {
@@ -27,21 +25,10 @@ var commonConfig = {
   },
 
   module: {
-    rules: [{
-        test: /\.(eot|ttf|woff|woff2|svg)$/,
-        use: 'file-loader'
-      },
+    rules: [
       {
         test: /\.(json)$/,
         use: "file-loader?name=api/[name].[ext]"
-      },
-      {
-        test: /Styling\/.*\.(elm)$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          "elm-css-webpack-loader"
-        ]
       }
     ]
   },
@@ -51,8 +38,8 @@ var commonConfig = {
       template: 'src/static/index.html',
       inject: 'body',
       filename: 'index.html'
-    }),
-  ],
+    })
+  ]
 };
 
 // additional webpack settings for local env (when invoked by 'npm start')
@@ -69,7 +56,7 @@ if (TARGET_ENV === 'development') {
     devServer: {
       // serve index.html in place of 404 responses
       historyApiFallback: true,
-      contentBase: './src',
+      contentBase: './src'
     },
 
     module: {
@@ -82,12 +69,10 @@ if (TARGET_ENV === 'development') {
           ]
         },
         {
-          test: /\.(css|scss)$/,
+          test: /\.(css)$/,
           use: [
             'style-loader',
-            { loader: 'css-loader', options: { importLoaders: 1 } },
-            'postcss-loader',
-            'sass-loader'
+            { loader: 'css-loader', options: { importLoaders: 1 } }
           ]
         }
       ]
@@ -111,13 +96,11 @@ if (TARGET_ENV === 'production') {
           use: 'elm-webpack-loader'
         },
         {
-          test: /\.(css|scss)$/,
+          test: /\.(css)$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              'css-loader',
-              'postcss-loader',
-              'sass-loader'
+              'css-loader'
             ]
           })
         }
@@ -129,7 +112,7 @@ if (TARGET_ENV === 'production') {
         {
           from: 'src/static/api/',
           to: 'static/api/'
-        },
+        }
       ]),
 
     //   new webpack.optimize.OccurenceOrderPlugin(),
@@ -143,7 +126,6 @@ if (TARGET_ENV === 'production') {
         compressor: {
           warnings: false
         }
-        // mangle:  true
       })
     ]
 

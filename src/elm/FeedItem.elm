@@ -2,18 +2,15 @@ module FeedItem exposing (..)
 
 import FeedItem.Types exposing (FeedItem)
 import Html exposing (..)
-import Html.Attributes exposing (href, id, target)
+import Html.Attributes exposing (class, href, id, target)
 import RemoteData exposing (RemoteData(Success), WebData)
-import Styling.Css exposing (tweakers_red)
-import Tachyons exposing (classes)
-import Tachyons.Classes exposing (b__light_gray, bb, dark_blue, dark_red, f6, f7, list, mb2, no_underline, pl0)
 
 
 viewFeed : String -> Maybe (WebData (List FeedItem)) -> Html a
 viewFeed name maybeItems =
-    div [ classes [] ]
+    div []
         [ div []
-            [ h1 [ classes [ f6, tweakers_red ] ] [ text name ] ]
+            [ h1 [ class "f6 tweakers-red" ] [ text name ] ]
         , div []
             [ viewMaybeFeedItem maybeItems
             ]
@@ -26,7 +23,7 @@ viewMaybeFeedItem maybeItems =
         Just items ->
             case items of
                 Success feedItems ->
-                    ul [ classes [ list, pl0 ] ]
+                    ul [ class "list pl0" ]
                         (List.map (\item -> viewFeedItem item) feedItems)
 
                 _ ->
@@ -38,6 +35,6 @@ viewMaybeFeedItem maybeItems =
 
 viewFeedItem : FeedItem -> Html a
 viewFeedItem item =
-    li [ classes [ bb, b__light_gray, mb2 ] ]
-        [ a [ classes [ no_underline, dark_blue, f7 ], href item.link, target "_blank" ] [ text item.title ]
+    li [ class "bb b--light-gray mb2" ]
+        [ a [ class "no_underline dark-blue f7 ", href item.link, target "_blank" ] [ text item.title ]
         ]
