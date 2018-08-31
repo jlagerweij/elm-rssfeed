@@ -1,4 +1,4 @@
-module FeedConfigs.View exposing (..)
+module FeedConfigs.View exposing (viewFeedItemsInColumn, viewFeeds)
 
 import FeedConfigs.Types exposing (FeedConfig)
 import FeedItem exposing (viewFeed)

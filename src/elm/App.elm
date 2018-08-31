@@ -1,22 +1,25 @@
-module App exposing (..)
+module App exposing (Model, Msg(..), decodeFeedConfig, decodeFeedConfigs, decodeSingleFeed, decodeSingleFeedItem, getFeed, getFeedConfigs, getFeeds, init, subscriptions, update, updateFeedConfigs, updateFeedItems, view)
 
-import FeedConfigs.View exposing (viewFeeds)
+import Browser
+import Browser.Navigation as Nav
 import FeedConfigs.Types exposing (FeedConfig, FeedConfigListWebData)
+import FeedConfigs.View exposing (viewFeeds)
 import FeedItem.Types exposing (FeedItem, FeedItemListWebData)
 import Html exposing (..)
 import Http
 import Json.Decode exposing (Decoder, decodeValue, field, list, maybe, nullable, string, succeed, value)
-import Json.Decode.Extra exposing ((|:))
-import RemoteData exposing (RemoteData(Failure), RemoteData(Loading), RemoteData(NotAsked), RemoteData(Success), WebData)
+import Json.Decode.Pipeline exposing (required, optional, hardcoded)
+
+import RemoteData exposing (RemoteData(..), WebData)
+import Url
 
 
-type alias Model =
-    { feedConfigWebData : FeedConfigListWebData
+type alias Model ={ feedConfigWebData : FeedConfigListWebData
     }
 
 
-init : ( Model, Cmd Msg )
-init =
+init : () -> ( Model, Cmd Msg )
+init flags =
     ( Model RemoteData.Loading, getFeedConfigs )
 
 
@@ -50,7 +53,7 @@ update msg model =
                         newfeedConfigWebData =
                             RemoteData.map (updateFeedConfigs feedConfig.id singleFeedWebData) model.feedConfigWebData
                     in
-                        ( { model | feedConfigWebData = newfeedConfigWebData }, Cmd.none )
+                    ( { model | feedConfigWebData = newfeedConfigWebData }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -65,6 +68,7 @@ updateFeedItems : String -> WebData (List FeedItem) -> FeedConfig -> FeedConfig
 updateFeedItems feedConfigId feedItemList feedConfig =
     if feedConfig.id == feedConfigId then
         { feedConfig | items = Just feedItemList }
+
     else
         feedConfig
 
@@ -95,8 +99,8 @@ decodeSingleFeed =
 decodeSingleFeedItem : Decoder FeedItem
 decodeSingleFeedItem =
     succeed FeedItem
-        |: field "title" string
-        |: field "link" string
+        |> required "title" string
+        |> required "link" string
 
 
 
@@ -119,10 +123,10 @@ decodeFeedConfigs =
 decodeFeedConfig : Decoder FeedConfig
 decodeFeedConfig =
     succeed FeedConfig
-        |: field "id" string
-        |: field "url" string
-        |: field "location" string
-        |: maybe (field "items" (succeed (RemoteData.NotAsked)))
+        |> required "id" string
+        |> required "url" string
+        |> required "location" string
+        |> optional "items" (succeed (Maybe.Just RemoteData.NotAsked)) (Maybe.Just RemoteData.NotAsked)
 
 
 view : Model -> Html msg
@@ -135,7 +139,7 @@ view model =
             text "Loading..."
 
         Failure err ->
-            text ("Error:" ++ toString err)
+            text ("Error:" ++ "TODO show err")
 
         Success feeds ->
             viewFeeds feeds

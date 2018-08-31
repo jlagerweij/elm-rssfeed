@@ -1,4 +1,4 @@
-module FeedItem.Types exposing (..)
+module FeedItem.Types exposing (FeedItem, FeedItemListWebData)
 
 import RemoteData exposing (WebData)
 

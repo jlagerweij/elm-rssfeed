@@ -1,12 +1,14 @@
-module Main exposing (..)
+module Main exposing (main)
 
-import Html exposing (..)
+import Json.Decode as Decode exposing (Value)
 import App exposing (init, update, view)
+import Browser
+import Html exposing (..)
 
 
-main : Program Never App.Model App.Msg
+main : Program () App.Model App.Msg
 main =
-    Html.program
+    Browser.element
         { init = App.init
         , update = App.update
         , view = App.view

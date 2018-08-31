@@ -1,9 +1,9 @@
-module FeedItem exposing (..)
+module FeedItem exposing (viewFeed, viewFeedItem, viewMaybeFeedItem)
 
 import FeedItem.Types exposing (FeedItem)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, id, target)
-import RemoteData exposing (RemoteData(Success), WebData)
+import RemoteData exposing (RemoteData(..), WebData)
 
 
 viewFeed : String -> Maybe (WebData (List FeedItem)) -> Html a
@@ -36,5 +36,5 @@ viewMaybeFeedItem maybeItems =
 viewFeedItem : FeedItem -> Html a
 viewFeedItem item =
     li [ class "bb b--light-gray mb2" ]
-        [ a [ class "no_underline dark-blue f7 ", href item.link, target "_blank" ] [ text item.title ]
+        [ a [ class "no-underline dark-blue f7 ", href item.link, target "_blank" ] [ text item.title ]
         ]

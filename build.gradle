@@ -13,17 +13,17 @@ task clean {
   delete 'build'
 }
 
-task elmPackageInstall(type: Exec, dependsOn: npmInstall) {
-  commandLine "node_modules/.bin/elm-package install -y".split(' ')
-  inputs.file file('elm-package.json')
-  outputs.dir file('elm-stuff')
-}
-
-task webpack(type: NpmTask, dependsOn: elmPackageInstall) {
+//task elmPackageInstall(type: Exec, dependsOn: npmInstall) {
+//  commandLine "node_modules/.bin/elm package install -y".split(' ')
+//  inputs.file file('elm-package.json')
+//  outputs.dir file('elm-stuff')
+//}
+//
+task webpack(type: NpmTask, dependsOn: npmInstall) {
   args = ['run', 'build']
 }
 
-task webpackDevServer(type: NodeTask, dependsOn: elmPackageInstall) {
+task webpackDevServer(type: NodeTask, dependsOn: npmInstall) {
   script = file('node_modules/webpack-dev-server/bin/webpack-dev-server')
   args["--hot"]
 }

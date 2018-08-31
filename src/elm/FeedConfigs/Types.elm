@@ -1,4 +1,4 @@
-module FeedConfigs.Types exposing (..)
+module FeedConfigs.Types exposing (FeedConfig, FeedConfigListWebData, Model, Msg(..))
 
 import FeedItem.Types exposing (FeedItemListWebData)
 import RemoteData exposing (WebData)
