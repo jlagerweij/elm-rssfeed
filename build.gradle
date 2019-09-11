@@ -8,9 +8,11 @@ node {
 }
 
 task clean {
-  delete 'node_modules'
-  delete 'elm-stuff'
-  delete 'build'
+  doLast {
+    delete 'node_modules'
+    delete 'elm-stuff'
+    delete 'build'
+  }
 }
 
 //task elmPackageInstall(type: Exec, dependsOn: npmInstall) {
@@ -27,6 +29,8 @@ task webpackDevServer(type: NodeTask, dependsOn: npmInstall) {
   script = file('node_modules/webpack-dev-server/bin/webpack-dev-server')
   args["--hot"]
 }
+
+task build(dependsOn: webpack)
 
 task dist(type: Copy, dependsOn: webpack) {
   from('build/web/static') {
