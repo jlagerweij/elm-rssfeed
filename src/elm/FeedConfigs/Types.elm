@@ -19,6 +19,7 @@ type alias FeedConfigListWebData =
 
 type alias FeedConfig =
     { id : String
+    , title : Maybe String
     , url : String
     , location : String
     , items : Maybe FeedItemListWebData

@@ -2,7 +2,7 @@ module FeedItem exposing (viewFeed, viewFeedItem, viewMaybeFeedItem)
 
 import FeedItem.Types exposing (FeedItem)
 import Html exposing (..)
-import Html.Attributes exposing (class, href, id, target)
+import Html.Attributes exposing (class, href, target)
 import RemoteData exposing (RemoteData(..), WebData)
 
 

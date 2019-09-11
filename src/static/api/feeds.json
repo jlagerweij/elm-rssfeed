@@ -1,6 +1,7 @@
 [
   {
     "id": "tweakers-nieuws",
+    "title": "Tweakers nieuws",
     "url": "http://tweakers.net/feeds/nieuws.xml",
     "location" : "left"
   },

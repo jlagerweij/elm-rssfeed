@@ -22,7 +22,7 @@ task clean {
 //}
 //
 task webpack(type: NpmTask, dependsOn: npmInstall) {
-  args = ['run', 'build']
+  args = ['run', 'prod']
 }
 
 task webpackDevServer(type: NodeTask, dependsOn: npmInstall) {

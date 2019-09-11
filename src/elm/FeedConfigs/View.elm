@@ -20,5 +20,5 @@ viewFeedItemsInColumn columnName feedConfigList =
     div [ class "dtc pv4 pl3", id columnName ]
         (feedConfigList
             |> List.filter (\feedConfig -> feedConfig.location == columnName)
-            |> List.map (\feedConfig -> viewFeed feedConfig.id feedConfig.items)
+            |> List.map (\feedConfig -> viewFeed (Maybe.withDefault feedConfig.id feedConfig.title) feedConfig.items)
         )
