@@ -8,7 +8,6 @@ plugins {
 
 configure<NodeExtension> {
   version = "10.16.3"
-  npmVersion = "6.9.0"
   download = true
 }
 
