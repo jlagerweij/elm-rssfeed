@@ -8,6 +8,7 @@ before_script:
 
 stages:
   - build
+  - publish
 
 build:
   stage: build
@@ -19,9 +20,9 @@ build:
       - build
       - .gradle
 
-test:
-  stage: test
-  script: ./gradlew check
+publish:
+  stage: publish
+  script: ./gradlew publish
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
