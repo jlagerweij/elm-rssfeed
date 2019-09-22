@@ -23,13 +23,3 @@ build:
     paths:
       - build
       - .gradle
-
-publish:
-  stage: publish
-  script: ./gradlew publish
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
