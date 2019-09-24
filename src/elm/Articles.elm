@@ -1,13 +1,13 @@
-module FeedItem exposing (viewFeed, viewFeedItem, viewMaybeFeedItem)
+module Articles exposing (view)
 
-import FeedItem.Types exposing (FeedItem)
+import Feeds.Article exposing (Article, ArticlesWebData)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, target)
-import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData exposing (RemoteData(..))
 
 
-viewFeed : String -> Maybe (WebData (List FeedItem)) -> Html a
-viewFeed name maybeItems =
+view : String -> Maybe ArticlesWebData -> Html a
+view name maybeItems =
     div []
         [ div []
             [ h1 [ class "f6 tweakers-red" ] [ text name ] ]
@@ -17,7 +17,7 @@ viewFeed name maybeItems =
         ]
 
 
-viewMaybeFeedItem : Maybe (WebData (List FeedItem)) -> Html a
+viewMaybeFeedItem : Maybe ArticlesWebData -> Html a
 viewMaybeFeedItem maybeItems =
     case maybeItems of
         Just items ->
@@ -33,7 +33,7 @@ viewMaybeFeedItem maybeItems =
             ul [] []
 
 
-viewFeedItem : FeedItem -> Html a
+viewFeedItem : Article -> Html a
 viewFeedItem item =
     let
         decodedTitle =

@@ -1,24 +1,26 @@
-module App exposing (Model, Msg(..), decodeFeedConfig, decodeFeedConfigs, decodeSingleFeed, decodeSingleFeedItem, getFeed, getFeedConfigs, getFeeds, init, subscriptions, update, updateFeedConfigs, updateFeedItems, view)
+module App exposing (Model, Msg(..), getFeed, getFeeds, init, subscriptions, update, updateFeedConfigs, updateFeedItems, view)
 
-import FeedConfigs.Types exposing (FeedConfig, FeedConfigListWebData)
-import FeedConfigs.View exposing (viewFeeds)
-import FeedItem.Types exposing (FeedItem, FeedItemListWebData)
+import Feeds
+import Feeds.Article as Articles exposing (Article, ArticlesWebData)
+import Feeds.Feed as Feeds exposing (Feed, FeedsWebData)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Http exposing (Error(..))
-import Json.Decode exposing (Decoder, nullable, string, succeed)
-import Json.Decode.Pipeline exposing (optional, required)
 import RemoteData exposing (RemoteData(..), WebData)
 
 
 type alias Model =
-    { feedConfigWebData : FeedConfigListWebData
+    { feedConfigWebData : FeedsWebData
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model RemoteData.Loading, getFeedConfigs )
+    ( Model RemoteData.Loading
+    , Feeds.list
+        |> RemoteData.sendRequest
+        |> Cmd.map FeedsResponse
+    )
 
 
 subscriptions : Model -> Sub Msg
@@ -27,14 +29,14 @@ subscriptions _ =
 
 
 type Msg
-    = FeedConfigsResponse FeedConfigListWebData
-    | SingleFeedResponse FeedConfig FeedItemListWebData
+    = FeedsResponse FeedsWebData
+    | SingleFeedResponse Feed ArticlesWebData
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        FeedConfigsResponse feedConfigsWebData ->
+        FeedsResponse feedConfigsWebData ->
             case feedConfigsWebData of
                 Success feeds ->
                     ( { model | feedConfigWebData = feedConfigsWebData }
@@ -57,12 +59,16 @@ update msg model =
                     ( model, Cmd.none )
 
 
-updateFeedConfigs : String -> WebData (List FeedItem) -> List FeedConfig -> List FeedConfig
+updateFeedConfigs : String -> ArticlesWebData -> List Feed -> List Feed
 updateFeedConfigs feedConfigId feedItemList feedConfigs =
-    List.map (\feedConfig -> updateFeedItems feedConfigId feedItemList feedConfig) feedConfigs
+    feedConfigs
+        |> List.map
+            (\feedConfig ->
+                updateFeedItems feedConfigId feedItemList feedConfig
+            )
 
 
-updateFeedItems : String -> WebData (List FeedItem) -> FeedConfig -> FeedConfig
+updateFeedItems : String -> ArticlesWebData -> Feed -> Feed
 updateFeedItems feedConfigId feedItemList feedConfig =
     if feedConfig.id == feedConfigId then
         { feedConfig | items = Just feedItemList }
@@ -75,57 +81,18 @@ updateFeedItems feedConfigId feedItemList feedConfig =
 --
 
 
-getFeeds : List FeedConfig -> Cmd Msg
+getFeeds : List Feed -> Cmd Msg
 getFeeds feedConfigs =
     feedConfigs
         |> List.map getFeed
         |> Cmd.batch
 
 
-getFeed : FeedConfig -> Cmd Msg
+getFeed : Feed -> Cmd Msg
 getFeed feedConfig =
-    Http.get ("api/feed-" ++ feedConfig.id ++ ".json") decodeSingleFeed
+    Articles.list feedConfig.id
         |> RemoteData.sendRequest
         |> Cmd.map (SingleFeedResponse feedConfig)
-
-
-decodeSingleFeed : Decoder (List FeedItem)
-decodeSingleFeed =
-    Json.Decode.list decodeSingleFeedItem
-
-
-decodeSingleFeedItem : Decoder FeedItem
-decodeSingleFeedItem =
-    succeed FeedItem
-        |> required "title" string
-        |> required "link" string
-
-
-
---
--- FeedConfig
-
-
-getFeedConfigs : Cmd Msg
-getFeedConfigs =
-    Http.get "api/feeds.json" decodeFeedConfigs
-        |> RemoteData.sendRequest
-        |> Cmd.map FeedConfigsResponse
-
-
-decodeFeedConfigs : Decoder (List FeedConfig)
-decodeFeedConfigs =
-    Json.Decode.list decodeFeedConfig
-
-
-decodeFeedConfig : Decoder FeedConfig
-decodeFeedConfig =
-    succeed FeedConfig
-        |> required "id" string
-        |> optional "title" (nullable string) Nothing
-        |> required "url" string
-        |> required "location" string
-        |> optional "items" (succeed (Maybe.Just RemoteData.NotAsked)) (Maybe.Just RemoteData.NotAsked)
 
 
 view : Model -> Html msg
@@ -141,7 +108,7 @@ view model =
             viewError err
 
         Success feeds ->
-            viewFeeds feeds
+            Feeds.view feeds
 
 
 viewError : Http.Error -> Html msg
