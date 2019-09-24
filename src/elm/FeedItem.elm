@@ -35,6 +35,12 @@ viewMaybeFeedItem maybeItems =
 
 viewFeedItem : FeedItem -> Html a
 viewFeedItem item =
+    let
+        decodedTitle =
+            item.title
+                |> String.replace "&quot;" "'"
+                |> String.replace "&euml;" "ë"
+    in
     li [ class "bb b--light-gray mb2" ]
-        [ a [ class "no-underline dark-blue f7 ", href item.link, target "_blank" ] [ text item.title ]
+        [ a [ class "no-underline dark-blue f7 ", href item.link, target "_blank" ] [ text decodedTitle ]
         ]

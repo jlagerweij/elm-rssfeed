@@ -1,17 +1,19 @@
 [
   {
     "id": "tweakers-nieuws",
-    "title": "Tweakers nieuws",
+    "title": "Tweakers",
     "url": "http://tweakers.net/feeds/nieuws.xml",
     "location" : "left"
   },
   {
     "id": "tweakers-meuktracker",
+    "title": "Meuktracker",
     "url": "http://tweakers.net/feeds/meuktracker.xml",
     "location" : "left"
   },
   {
     "id": "webwereld",
+    "title": "Webwereld",
     "url": "http://feeds.webwereld.nl/webwereld",
     "location" : "left"
   },
@@ -26,9 +28,10 @@
     "location" : "left"
   },
   {
-    "id": "telegraaf-sport",
-    "url": "http://www.telegraaf.nl/rss/telesport.xml",
-    "location" : "left"
+    "id": "volkskrant-sport",
+	"title": "Volkskrant Sport",
+	"url": "https://www.volkskrant.nl/sport/rss.xml",
+	"location": "left"
   },
   {
     "id": "ycombinator",
@@ -46,8 +49,8 @@
     "location" : "middle"
   },
   {
-    "id": "nu-gadgets",
-    "url": "http://www.nu.nl/rss/gadgets",
+    "id": "nu-tech",
+    "url": "http://www.nu.nl/rss/tech",
     "location" : "middle"
   },
   {
@@ -56,8 +59,9 @@
     "location" : "middle"
   },
   {
-    "id": "telegraaf",
-    "url": "http://www.telegraaf.nl/rss",
+    "id": "volkskrant-voorpagina",
+	"title": "Volkskrant voorpagina",
+    "url": "https://www.volkskrant.nl/voorpagina/rss.xml",
     "location" : "middle"
   },
   {
@@ -66,8 +70,13 @@
     "location" : "middle"
   },
   {
-    "id": "theserverside",
-    "url": "http://www.theserverside.com/rss/forum.tss?forum_id=2",
+    "id": "theserverside-content-syndication",
+    "url": "https://www.theserverside.com/rss/ContentSyndication.xml",
+    "location" : "middle"
+  },
+  {
+    "id": "theserverside-events",
+    "url": "https://www.theserverside.com/rss/theserverside-events-rss2-os.xml",
     "location" : "middle"
   },
   {
@@ -76,18 +85,21 @@
     "location" : "right"
   },
   {
-    "id": "telegraaf-digitaal",
-    "url": "http://www.telegraaf.nl/rss/digitaal.xml",
+    "id": "volkskrant-nieuws-achtergrond",
+	"title": "Volkskrant nieuws en achtergrond",
+    "url": "https://www.volkskrant.nl/nieuws-achtergrond/rss.xml",
     "location" : "right"
   },
   {
-    "id": "telegraaf-binnenland",
-    "url": "http://www.telegraaf.nl/rss/binnenland.xml",
+    "id": "volkskrant-column",
+	"title": "Volkskrant column",
+    "url": "https://www.volkskrant.nl/columns-opinie/rss.xml",
     "location" : "right"
   },
   {
-    "id": "motormeuk",
-    "url": "http://www.motormeuk.nl/rss",
+    "id": "volkskrant-wetenschap",
+	"title": "Volkskrant wetenschap",
+    "url": "https://www.volkskrant.nl/wetenschap/rss.xml",
     "location" : "right"
   },
   {

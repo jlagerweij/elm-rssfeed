@@ -172,5 +172,5 @@ errorToString error =
                 _ ->
                     "Unknown error"
 
-        BadPayload message response ->
+        BadPayload message _ ->
             message

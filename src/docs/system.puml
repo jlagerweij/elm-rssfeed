@@ -1,0 +1,14 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LEFT_RIGHT
+
+System_Boundary(c1, "Elm RSSFeed"){
+    Container(elmrssfeed, "Elm RSSFeed", "Docker container: NGINX, Elm")
+}
+
+System_Ext(visitor, "Visitor", "Visits the website")
+
+Rel(visitor, elmrssfeed, "Views feeds")
+
+@enduml
