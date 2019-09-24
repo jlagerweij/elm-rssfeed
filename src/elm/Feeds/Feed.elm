@@ -18,7 +18,7 @@ type alias Feed =
     , title : Maybe String
     , url : String
     , location : String
-    , items : Maybe ArticlesWebData
+    , items : ArticlesWebData
     }
 
 
@@ -47,4 +47,4 @@ decodeFeed =
         |> optional "title" (Decode.nullable Decode.string) Nothing
         |> required "url" Decode.string
         |> required "location" Decode.string
-        |> optional "items" (Decode.succeed (Maybe.Just RemoteData.NotAsked)) (Maybe.Just RemoteData.NotAsked)
+        |> optional "items" (Decode.succeed RemoteData.NotAsked) RemoteData.NotAsked

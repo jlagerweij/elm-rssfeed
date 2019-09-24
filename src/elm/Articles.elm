@@ -6,41 +6,36 @@ import Html.Attributes exposing (class, href, target)
 import RemoteData exposing (RemoteData(..))
 
 
-view : String -> Maybe ArticlesWebData -> Html a
-view name maybeItems =
+view : String -> ArticlesWebData -> Html a
+view name articles =
     div []
         [ div []
             [ h1 [ class "f6 tweakers-red" ] [ text name ] ]
         , div []
-            [ viewMaybeFeedItem maybeItems
+            [ viewArticles articles
             ]
         ]
 
 
-viewMaybeFeedItem : Maybe ArticlesWebData -> Html a
-viewMaybeFeedItem maybeItems =
-    case maybeItems of
-        Just items ->
-            case items of
-                Success feedItems ->
-                    ul [ class "list pl0" ]
-                        (List.map (\item -> viewFeedItem item) feedItems)
-
-                _ ->
-                    ul [] []
+viewArticles : ArticlesWebData -> Html a
+viewArticles articlesWebData =
+    case articlesWebData of
+        Success articles ->
+            ul [ class "list pl0" ]
+                (List.map (\article -> viewArticle article) articles)
 
         _ ->
             ul [] []
 
 
-viewFeedItem : Article -> Html a
-viewFeedItem item =
+viewArticle : Article -> Html a
+viewArticle article =
     let
         decodedTitle =
-            item.title
+            article.title
                 |> String.replace "&quot;" "'"
                 |> String.replace "&euml;" "ë"
     in
     li [ class "bb b--light-gray mb2" ]
-        [ a [ class "no-underline dark-blue f7 ", href item.link, target "_blank" ] [ text decodedTitle ]
+        [ a [ class "no-underline dark-blue f7 ", href article.link, target "_blank" ] [ text decodedTitle ]
         ]

@@ -71,7 +71,7 @@ updateFeedConfigs feedConfigId feedItemList feedConfigs =
 updateFeedItems : String -> ArticlesWebData -> Feed -> Feed
 updateFeedItems feedConfigId feedItemList feedConfig =
     if feedConfig.id == feedConfigId then
-        { feedConfig | items = Just feedItemList }
+        { feedConfig | items = feedItemList }
 
     else
         feedConfig
