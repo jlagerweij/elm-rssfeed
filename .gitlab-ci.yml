@@ -16,7 +16,7 @@ stages:
 
 build:
   stage: build
-  script: ./gradlew --build-cache build
+  script: ./gradlew --build-cache build --stacktrace
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
