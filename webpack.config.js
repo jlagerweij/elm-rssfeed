@@ -20,7 +20,7 @@ const common = {
   mode: MODE,
   entry: "./src/static/index.js",
   output: {
-    path: path.join(__dirname, "build/web"),
+    path: path.join(__dirname, "build/webpack"),
     // publicPath: "/",
     filename: path.join('static/js/', MODE === "production" ? "[name]-[hash].js" : "[name].js")
   },

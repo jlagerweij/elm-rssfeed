@@ -24,14 +24,36 @@ tasks {
     dependsOn("webpack")
     description = "Assembles the outputs of this project."
     group = "build"
-    from("build/web/static") {
-      into("static")
+    from("build/webpack") {
+      into("/")
+    }
+    from("docker/elm-rssfeed")
+    into("${buildDir}/dist")
+  }
+
+  register<Copy>("assembleConvertRssToJson") {
+    from("docker/convert-rss-to-json") {
+      into("/")
     }
     from("src/static/convert-rss-to-json.php") {
       into("/")
     }
-    from("build/web/index.html")
-    into("build/dist")
+    into("${buildDir}/convert-rss-to-json")
+  }
+
+  register<Exec>("buildConvertRssToJson") {
+    dependsOn("assembleConvertRssToJson")
+    commandLine = listOf("docker", "build", "-t", "elm-rssfeed-convert-rss-to-json:latest", "${buildDir}/convert-rss-to-json")
+  }
+
+  register<Exec>("buildElmRssFeed") {
+    dependsOn("assemble")
+    commandLine = listOf("docker", "build", "-t", "elm-rssfeed:latest", "${buildDir}/dist")
+  }
+
+  register("build") {
+    group = "build"
+    dependsOn("buildConvertRssToJson", "buildElmRssFeed")
   }
 
   register("clean") {
@@ -48,6 +70,10 @@ tasks {
     dependsOn("npmInstall")
     description = "Assembles this project."
     group = "build"
+    inputs.dir("src")
+    inputs.file("elm.json")
+    inputs.file("webpack.config.js")
+    outputs.dir("${buildDir}/webpack")
     setNpmCommand("run-script", "prod")
   }
 
