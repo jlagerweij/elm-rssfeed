@@ -1,11 +1,10 @@
-image: openjdk:8-jdk-alpine
+image: custom-gitlabci-jdk8-docker:latest
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
-  - apk add --no-cache docker
 
 cache:
   paths:
