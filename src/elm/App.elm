@@ -1,4 +1,4 @@
-module App exposing (Model, Msg(..), getFeed, getFeeds, init, subscriptions, update, updateFeedConfigs, updateFeedItems, view)
+module App exposing (Model, Msg(..), getFeeds, init, subscriptions, update, updateFeedConfigs, updateFeedItems, view)
 
 import Feeds
 import Feeds.Article as Articles exposing (Article, ArticlesWebData)
@@ -17,9 +17,7 @@ type alias Model =
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Model RemoteData.Loading
-    , Feeds.list
-        |> RemoteData.sendRequest
-        |> Cmd.map FeedsResponse
+    , Feeds.list (RemoteData.fromResult >> FeedsResponse)
     )
 
 
@@ -84,15 +82,8 @@ updateFeedItems feedConfigId feedItemList feedConfig =
 getFeeds : List Feed -> Cmd Msg
 getFeeds feedConfigs =
     feedConfigs
-        |> List.map getFeed
+        |> List.map (\feed -> Articles.list (RemoteData.fromResult >> SingleFeedResponse feed) feed.id)
         |> Cmd.batch
-
-
-getFeed : Feed -> Cmd Msg
-getFeed feedConfig =
-    Articles.list feedConfig.id
-        |> RemoteData.sendRequest
-        |> Cmd.map (SingleFeedResponse feedConfig)
 
 
 view : Model -> Html msg
@@ -128,10 +119,10 @@ errorToString error =
         NetworkError ->
             "Unable to reach the server, check your network connection"
 
-        BadStatus errorMessage ->
-            case errorMessage.status.code of
+        BadStatus statusCode ->
+            case statusCode of
                 500 ->
-                    "The server had a problem, try again later" ++ errorMessage.body
+                    "The server had a problem, try again later"
 
                 400 ->
                     "Verify your information and try again"
@@ -139,5 +130,5 @@ errorToString error =
                 _ ->
                     "Unknown error"
 
-        BadPayload message _ ->
+        BadBody message ->
             message

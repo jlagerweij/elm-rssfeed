@@ -26,10 +26,12 @@ type alias ArticlesWebData =
 -- LIST
 
 
-list : String -> Http.Request (List Article)
-list feedId =
-    Decode.list decodeArticle
-        |> Api.get (Endpoint.articles feedId)
+list : (Result Http.Error (List Article) -> msg) -> String -> Cmd msg
+list toMsg feedId =
+    Api.get
+        (Endpoint.articles feedId)
+        toMsg
+        (Decode.list decodeArticle)
 
 
 

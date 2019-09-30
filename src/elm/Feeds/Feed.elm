@@ -30,10 +30,12 @@ type alias FeedsWebData =
 -- LIST
 
 
-list : Http.Request (List Feed)
-list =
-    Decode.list decodeFeed
-        |> Api.get Endpoint.feeds
+list : (Result Http.Error (List Feed) -> msg) -> Cmd msg
+list toMsg =
+    Api.get
+        Endpoint.feeds
+        toMsg
+        (Decode.list decodeFeed)
 
 
 

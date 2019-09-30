@@ -7,24 +7,24 @@ import Url.Builder exposing (QueryParameter)
 {-| Http.request, except it takes an Endpoint instead of a Url.
 -}
 request :
-    { body : Http.Body
-    , expect : Http.Expect a
+    { method : String
     , headers : List Http.Header
-    , method : String
-    , timeout : Maybe Float
     , url : Endpoint
-    , withCredentials : Bool
+    , body : Http.Body
+    , expect : Http.Expect msg
+    , timeout : Maybe Float
+    , tracker : Maybe String
     }
-    -> Http.Request a
+    -> Cmd msg
 request config =
     Http.request
-        { body = config.body
-        , expect = config.expect
+        { method = config.method
         , headers = config.headers
-        , method = config.method
+        , body = config.body
+        , expect = config.expect
         , timeout = config.timeout
         , url = unwrap config.url
-        , withCredentials = config.withCredentials
+        , tracker = config.tracker
         }
 
 
