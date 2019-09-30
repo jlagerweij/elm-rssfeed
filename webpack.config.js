@@ -28,6 +28,7 @@ const common = {
     new HTMLWebpackPlugin({
       // Use this template to get basic responsive meta tags
       template: "src/static/index.html",
+      favicon: 'src/static/favicon.ico',
       // inject details of output file at end of body
       inject: "body"
     })
