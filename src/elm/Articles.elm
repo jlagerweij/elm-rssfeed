@@ -3,6 +3,8 @@ module Articles exposing (view)
 import Feeds.Article exposing (Article, ArticlesWebData)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, target)
+import Html.Parser
+import Html.Parser.Util
 import RemoteData exposing (RemoteData(..))
 
 
@@ -31,11 +33,19 @@ viewArticles articlesWebData =
 viewArticle : Article -> Html a
 viewArticle article =
     let
-        decodedTitle =
+        escapedTitle =
             article.title
                 |> String.replace "&quot;" "'"
                 |> String.replace "&euml;" "ë"
+
+        t =
+            case Html.Parser.run article.title of
+                Ok x ->
+                    Html.Parser.Util.toVirtualDom x
+
+                Err _ ->
+                    [ text escapedTitle ]
     in
     li [ class "bb b--light-gray mb2" ]
-        [ a [ class "no-underline dark-blue f7 ", href article.link, target "_blank" ] [ text decodedTitle ]
+        [ a [ class "no-underline dark-blue f7 ", href article.link, target "_blank" ] t
         ]
