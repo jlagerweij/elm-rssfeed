@@ -40,13 +40,6 @@ const common = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
         test: /\.scss$/,
         exclude: [/elm-stuff/, /node_modules/],
         // see https://github.com/webpack-contrib/css-loader#url

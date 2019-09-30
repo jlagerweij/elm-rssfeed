@@ -7,7 +7,7 @@ plugins {
 }
 
 configure<NodeExtension> {
-  version = "12.10.0"
+  version = "10.16.3"
   download = true
 }
 
