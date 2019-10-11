@@ -12,7 +12,7 @@ view : String -> ArticlesWebData -> Html a
 view name articles =
     div []
         [ div []
-            [ h1 [ class "f6 tweakers-red" ] [ text name ] ]
+            [ h1 [ class "f6 moon-gray code" ] [ text name ] ]
         , div []
             [ viewArticles articles
             ]
@@ -46,6 +46,6 @@ viewArticle article =
                 Err _ ->
                     [ text escapedTitle ]
     in
-    li [ class "bb b--light-gray mb2" ]
-        [ a [ class "no-underline dark-blue f7 ", href article.link, target "_blank" ] t
+    li [ class "b--dashed b--white-05 bb br-0 bl-0 bt-0 mb2" ]
+        [ a [ class "no-underline silver f7 avenir ", href article.link, target "_blank" ] t
         ]
