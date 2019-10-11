@@ -1,4 +1,4 @@
-image: openjdk:8-alpine
+image: openjdk:8-jdk-slim-buster
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"

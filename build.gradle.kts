@@ -27,7 +27,7 @@ tasks {
     description = "Assembles the outputs of this project."
     group = "build"
     from("build/webpack") {
-      into("/")
+      into("web")
     }
     from("docker/elm-rssfeed")
     into("${buildDir}/dist")
