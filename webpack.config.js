@@ -79,7 +79,10 @@ if (MODE === "development") {
       // Suggested for hot-loading
       new webpack.NamedModulesPlugin(),
       // Prevents compilation errors causing the hot loader to lose state
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new CopyWebpackPlugin([
+        {from: "src/static/api/", to: "static/api/"}
+      ]),
     ],
     module: {
       rules: [
@@ -130,10 +133,7 @@ if (MODE === "production") {
       new elmMinify.WebpackPlugin(),
       // Copy static assets
       new CopyWebpackPlugin([
-        {
-          from: "src/static/api/",
-          to: "static/api/"
-        }
+        {from: "src/static/manifest.json", to: "manifest.json"}
       ]),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
