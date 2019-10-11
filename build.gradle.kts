@@ -1,9 +1,11 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.moowork.gradle.node.NodeExtension
 import com.moowork.gradle.node.npm.NpmTask
 import com.moowork.gradle.node.task.NodeTask
 
 plugins {
   id("com.moowork.node").version("1.3.1")
+  id("com.bmuschko.docker-remote-api").version("5.2.0")
 }
 
 configure<NodeExtension> {
@@ -41,14 +43,16 @@ tasks {
     into("${buildDir}/convert-rss-to-json")
   }
 
-  register<Exec>("buildConvertRssToJson") {
+  register<DockerBuildImage>("buildConvertRssToJson") {
     dependsOn("assembleConvertRssToJson")
-    commandLine = listOf("docker", "build", "-t", "elm-rssfeed-convert-rss-to-json:latest", "${buildDir}/convert-rss-to-json")
+    inputDir.set(file("${buildDir}/convert-rss-to-json"))
+    tags.add("elm-rssfeed-convert-rss-to-json:latest")
   }
 
-  register<Exec>("buildElmRssFeed") {
+  register<DockerBuildImage>("buildElmRssFeed") {
     dependsOn("assemble")
-    commandLine = listOf("docker", "build", "-t", "elm-rssfeed:latest", "${buildDir}/dist")
+    inputDir.set(file("${buildDir}/dist"))
+    tags.add("elm-rssfeed:latest")
   }
 
   register("build") {
