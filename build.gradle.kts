@@ -37,7 +37,7 @@ tasks {
     from("docker/convert-rss-to-json") {
       into("/")
     }
-    from("src/static/convert-rss-to-json.php") {
+    from("src/php/convert-rss-to-json.php") {
       into("/")
     }
     into("${buildDir}/convert-rss-to-json")
