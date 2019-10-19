@@ -1,11 +1,11 @@
 version: '3'
 services:
-  elm-rssfeed-convert-rss-to-json:
+  convert-rss-to-json:
     image: elm-rssfeed-convert-rss-to-json:latest
     volumes:
       - feeds-volume:/app/api/feeds/
 
-  elm-rssfeed:
+  web:
     image: elm-rssfeed:latest
     volumes:
       - feeds-volume:/usr/share/nginx/html/api/feeds/

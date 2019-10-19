@@ -1,6 +1,6 @@
 <?php
 
-$feedConfigs = json_decode(file_get_contents('http://elm-rssfeed/api/feeds.json'));
+$feedConfigs = json_decode(file_get_contents('http://web/api/feeds.json'));
 
 class Item
 {
