@@ -1,3 +1,4 @@
+import com.avast.gradle.dockercompose.ComposeExtension
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.moowork.gradle.node.NodeExtension
 import com.moowork.gradle.node.npm.NpmTask
@@ -6,11 +7,17 @@ import com.moowork.gradle.node.task.NodeTask
 plugins {
   id("com.moowork.node").version("1.3.1")
   id("com.bmuschko.docker-remote-api").version("5.2.0")
+  id("com.avast.gradle.docker-compose").version("0.9.5")
 }
 
 configure<NodeExtension> {
   version = "10.16.3"
   download = true
+}
+
+configure<ComposeExtension> {
+  projectName = "elm-rssfeed"
+  useComposeFiles = listOf("docker/docker-compose.yaml")
 }
 
 tasks {
@@ -28,6 +35,9 @@ tasks {
     group = "build"
     from("build/webpack") {
       into("web")
+    }
+    from("src/static/api/feeds.json") {
+      into("web/api/")
     }
     from("docker/elm-rssfeed")
     into("${buildDir}/dist")

@@ -56,4 +56,4 @@ feeds =
 
 articles : String -> Endpoint
 articles id =
-    url [ "feed-" ++ id ++ ".json" ] []
+    url [ "feeds/" ++ id ] []

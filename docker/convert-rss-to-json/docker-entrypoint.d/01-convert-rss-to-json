@@ -1,0 +1,3 @@
+#!/bin/bash
+
+[ -f /app/convert-rss-to-json.php ] && (cd /app; php convert-rss-to-json.php)

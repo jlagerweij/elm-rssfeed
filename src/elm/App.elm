@@ -2,7 +2,7 @@ module App exposing (Model, Msg(..), getFeeds, init, subscriptions, update, upda
 
 import Feeds
 import Feeds.Article as Articles exposing (Article, ArticlesWebData)
-import Feeds.Feed as Feeds exposing (Feed, FeedsWebData)
+import Feeds.Feed as Feeds exposing (Feed, Feeds, FeedsWebData)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Http exposing (Error(..))
@@ -57,13 +57,19 @@ update msg model =
                     ( model, Cmd.none )
 
 
-updateFeedConfigs : String -> ArticlesWebData -> List Feed -> List Feed
-updateFeedConfigs feedConfigId feedItemList feedConfigs =
-    feedConfigs
-        |> List.map
-            (\feedConfig ->
-                updateFeedItems feedConfigId feedItemList feedConfig
-            )
+updateFeedConfigs : String -> ArticlesWebData -> Feeds -> Feeds
+updateFeedConfigs feedConfigId articles feedConfigs =
+    let
+        updateFeed =
+            List.map
+                (\feedConfig ->
+                    updateFeedItems feedConfigId articles feedConfig
+                )
+    in
+    { left = feedConfigs.left |> updateFeed
+    , middle = feedConfigs.middle |> updateFeed
+    , right = feedConfigs.right |> updateFeed
+    }
 
 
 updateFeedItems : String -> ArticlesWebData -> Feed -> Feed
@@ -79,9 +85,9 @@ updateFeedItems feedConfigId feedItemList feedConfig =
 --
 
 
-getFeeds : List Feed -> Cmd Msg
+getFeeds : Feeds -> Cmd Msg
 getFeeds feedConfigs =
-    feedConfigs
+    (feedConfigs.left ++ feedConfigs.middle ++ feedConfigs.right)
         |> List.map (\feed -> Articles.list (RemoteData.fromResult >> SingleFeedResponse feed) feed.id)
         |> Cmd.batch
 

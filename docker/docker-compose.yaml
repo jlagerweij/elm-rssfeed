@@ -3,12 +3,13 @@ services:
   elm-rssfeed-convert-rss-to-json:
     image: elm-rssfeed-convert-rss-to-json:latest
     volumes:
-      - ./api:/app/api
-
+      - feeds-volume:/app/api/feeds/
 
   elm-rssfeed:
     image: elm-rssfeed:latest
     volumes:
-      - ./api:/usr/share/nginx/html/api
+      - feeds-volume:/usr/share/nginx/html/api/feeds/
     ports:
       - 8080:80
+volumes:
+  feeds-volume:
