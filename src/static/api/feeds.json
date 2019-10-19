@@ -30,6 +30,26 @@
       "location": "left"
     },
     {
+      "id": "degelderlander-voorpagina",
+      "title": "De Gelderlander voorpagina",
+      "url": "https://www.gelderlander.nl/home/rss.xml"
+    },
+    {
+      "id": "degelderlander-algemeen",
+      "title": "De Gelderlander algemeen",
+      "url": "https://www.gelderlander.nl/algemeen/rss.xml"
+    },
+    {
+      "id": "degelderlander-arnhem",
+      "title": "De Gelderlander Arnhem",
+      "url": "https://www.gelderlander.nl/arnhem-e-o/rss.xml"
+    },
+    {
+      "id": "degelderlander-sport",
+      "title": "De Gelderlander sport",
+      "url": "https://www.gelderlander.nl/sport/rss.xml"
+    },
+    {
       "id": "ycombinator",
       "url": "https://news.ycombinator.com/rss"
     }
