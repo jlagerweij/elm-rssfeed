@@ -20,7 +20,7 @@ const common = {
   mode: MODE,
   entry: "./src/static/index.js",
   output: {
-    path: path.join(__dirname, "build/web"),
+    path: path.join(__dirname, "build/webpack"),
     // publicPath: "/",
     filename: path.join('static/js/', MODE === "production" ? "[name]-[hash].js" : "[name].js")
   },
@@ -28,6 +28,7 @@ const common = {
     new HTMLWebpackPlugin({
       // Use this template to get basic responsive meta tags
       template: "src/static/index.html",
+      favicon: 'src/static/favicon.ico',
       // inject details of output file at end of body
       inject: "body"
     })
@@ -38,13 +39,6 @@ const common = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
       {
         test: /\.scss$/,
         exclude: [/elm-stuff/, /node_modules/],
@@ -85,7 +79,10 @@ if (MODE === "development") {
       // Suggested for hot-loading
       new webpack.NamedModulesPlugin(),
       // Prevents compilation errors causing the hot loader to lose state
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new CopyWebpackPlugin([
+        {from: "src/static/api/", to: "static/api/"}
+      ]),
     ],
     module: {
       rules: [
@@ -136,10 +133,7 @@ if (MODE === "production") {
       new elmMinify.WebpackPlugin(),
       // Copy static assets
       new CopyWebpackPlugin([
-        {
-          from: "src/static/api/",
-          to: "static/api/"
-        }
+        {from: "src/static/manifest.json", to: "manifest.json"}
       ]),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output

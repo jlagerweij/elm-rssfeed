@@ -1,0 +1,15 @@
+version: '3'
+services:
+  convert-rss-to-json:
+    image: elm-rssfeed-convert-rss-to-json:latest
+    volumes:
+      - feeds-volume:/app/api/feeds/
+
+  web:
+    image: elm-rssfeed:latest
+    volumes:
+      - feeds-volume:/usr/share/nginx/html/api/feeds/
+    ports:
+      - 8080:80
+volumes:
+  feeds-volume:

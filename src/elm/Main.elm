@@ -1,9 +1,7 @@
 module Main exposing (main)
 
-import Json.Decode as Decode exposing (Value)
-import App exposing (init, update, view)
+import App
 import Browser
-import Html exposing (..)
 
 
 main : Program () App.Model App.Msg

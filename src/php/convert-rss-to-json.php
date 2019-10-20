@@ -1,6 +1,6 @@
 <?php
 
-$feedConfigs = json_decode(file_get_contents('api/feeds.json'));
+$feedConfigs = json_decode(file_get_contents('http://web/api/feeds.json'));
 
 class Item
 {
@@ -47,7 +47,7 @@ function getLinkAndTitleFromEntry($feed, $xml)
 
 }
 
-foreach ($feedConfigs as $feedConfig) {
+foreach (array_merge($feedConfigs->left, $feedConfigs->middle, $feedConfigs->right) as $feedConfig) {
   echo "URL: " . $feedConfig->url . "\n";
 
   $xml = file_get_contents($feedConfig->url);
@@ -97,7 +97,7 @@ foreach ($feedConfigs as $feedConfig) {
     }
 
     echo 'writing ' . count($feed) . ' to : feed-' . $feedConfig->id . '.json' . "\n";
-    $fp = fopen('api/feed-' . $feedConfig->id . '.json', 'w');
+    $fp = fopen('api/feeds/' . $feedConfig->id, 'w');
     fwrite($fp, json_encode($feed, 128));
     fclose($fp);
   }
