@@ -11,7 +11,7 @@ plugins {
 }
 
 configure<NodeExtension> {
-  version = "10.16.3"
+  version = "12.13.0"
   download = true
 }
 

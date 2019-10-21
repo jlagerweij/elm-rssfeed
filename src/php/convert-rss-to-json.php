@@ -48,7 +48,7 @@ function getLinkAndTitleFromEntry($feed, $xml)
 }
 
 foreach (array_merge($feedConfigs->left, $feedConfigs->middle, $feedConfigs->right) as $feedConfig) {
-  echo "URL: " . $feedConfig->url . "\n";
+  echo "URL: " . $feedConfig->url . "\t";
 
   $xml = file_get_contents($feedConfig->url);
   if (strpos($xml, 'ISO-8859-15') !== false || strpos($xml, 'iso-8859-15') !== false) {
@@ -96,7 +96,7 @@ foreach (array_merge($feedConfigs->left, $feedConfigs->middle, $feedConfigs->rig
       }
     }
 
-    echo 'writing ' . count($feed) . ' to : feed-' . $feedConfig->id . '.json' . "\n";
+    echo count($feed) . " articles => \t feeds/" . $feedConfig->id . "\n";
     $fp = fopen('api/feeds/' . $feedConfig->id, 'w');
     fwrite($fp, json_encode($feed, 128));
     fclose($fp);

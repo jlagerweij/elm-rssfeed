@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const elmMinify = require("elm-minify");
+const fs = require("fs");
 
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
@@ -111,9 +112,14 @@ if (MODE === "development") {
       historyApiFallback: true,
       // feel free to delete this section if you don't need anything like this
       before(app) {
-        // on port 3000
         app.get("/test", function(req, res) {
           res.json({ result: "OK" });
+        });
+        app.get(/api\/feeds\/(.*)/, function(req, res) {
+          let path = req.url.replace('/api/feeds/', '/api/feed-') + '.json';
+          let data = fs.readFileSync('src/static' + path);
+          res.header("Content-Type",'application/json');
+          res.send(data);
         });
       }
     }
