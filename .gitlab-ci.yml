@@ -19,7 +19,6 @@ build:
   script: ./gradlew --build-cache build --stacktrace
   cache:
     key: "$CI_COMMIT_REF_NAME"
-    policy: push
     paths:
       - build
       - .gradle
