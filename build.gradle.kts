@@ -5,7 +5,7 @@ import com.moowork.gradle.node.npm.NpmTask
 import com.moowork.gradle.node.task.NodeTask
 
 plugins {
-  id("com.moowork.node").version("1.3.1")
+  id("com.github.node-gradle.node").version("2.2.0")
   id("com.bmuschko.docker-remote-api").version("5.2.0")
   id("com.avast.gradle.docker-compose").version("0.9.5")
 }
