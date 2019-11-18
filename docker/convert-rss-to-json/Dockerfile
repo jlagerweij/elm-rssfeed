@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   php-cli \
   php-simplexml \
   ca-certificates \
+  inetutils-ping \
+  curl \
   cron \
   && rm -rf /var/lib/apt/lists/*
 
