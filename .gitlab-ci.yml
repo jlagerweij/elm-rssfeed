@@ -1,4 +1,4 @@
-image: openjdk:8-jdk-slim-buster
+image: gradle:6.0.1-jdk11
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -16,7 +16,7 @@ stages:
 
 build:
   stage: build
-  script: ./gradlew --build-cache build --stacktrace
+  script: gradle --build-cache build --stacktrace
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
