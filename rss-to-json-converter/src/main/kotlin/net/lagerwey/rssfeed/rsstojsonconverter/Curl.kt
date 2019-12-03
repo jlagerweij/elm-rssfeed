@@ -1,17 +1,16 @@
 package net.lagerwey.rssfeed.rsstojsonconverter
 
-import java.io.BufferedReader
+import org.springframework.core.io.DefaultResourceLoader
 import java.io.InputStream
-import java.io.InputStreamReader
-import java.lang.IllegalStateException
 import java.net.HttpURLConnection
 import java.net.URL
 
 
 class Curl {
   fun download(url: String): InputStream {
-    val obj = URL(url)
-    var connection = obj.openConnection()
+    val resource = DefaultResourceLoader().getResource(url)
+
+    var connection = resource.url.openConnection()
     if (connection is HttpURLConnection) {
       connection.readTimeout = 5000
       connection.addRequestProperty("Accept-Language", "en-US,en;q=0.8")
@@ -42,21 +41,10 @@ class Curl {
       redirectConnection.addRequestProperty("User-Agent", "Mozilla")
       redirectConnection.addRequestProperty("Referer", "google.com")
       println("Redirect ${depth} to URL : $newUrl")
-      followRedirect(redirectConnection, depth+1)
+      followRedirect(redirectConnection, depth + 1)
     } else {
       connection
     }
   }
 
-  fun downloadAsString(url: String): String {
-    val inputStream = this.download(url)
-    val reader = BufferedReader(InputStreamReader(inputStream))
-    var inputLine: String?
-    val text = StringBuffer()
-    while (reader.readLine().also { inputLine = it } != null) {
-      text.append(inputLine)
-    }
-    reader.close()
-    return text.toString()
-  }
 }

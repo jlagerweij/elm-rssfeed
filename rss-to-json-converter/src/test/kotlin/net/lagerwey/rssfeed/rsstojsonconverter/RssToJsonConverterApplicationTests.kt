@@ -2,13 +2,14 @@ package net.lagerwey.rssfeed.rsstojsonconverter
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.io.File
+import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
+@ActiveProfiles("test")
 class RssToJsonConverterApplicationTests {
 
-	@Test
-	fun contextLoads() {
-    File("../../../../src/static/api/feeds.json")
-	}
+  @Test
+  fun contextLoads() {
+    println("TODO: we should assert the generated json files.")
+  }
 }

@@ -7,8 +7,9 @@ plugins {
   id("org.springframework.boot") version "2.2.1.RELEASE"
   id("io.spring.dependency-management") version "1.0.8.RELEASE"
   id("com.palantir.graal") version "0.6.0-33-gb052835"
-  kotlin("jvm") version "1.3.50"
-  kotlin("plugin.spring") version "1.3.50"
+  kotlin("jvm") version "1.3.61"
+  kotlin("plugin.spring") version "1.3.61"
+  kotlin("kapt") version "1.3.61"
 }
 
 group = "net.lagerwey.rssfeed"
@@ -37,6 +38,8 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test") {
     exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
   }
+
+  kapt("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<Test> {

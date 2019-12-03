@@ -4,10 +4,20 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ClassPathResource
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.File
 
+@ExtendWith(SpringExtension::class)
+@SpringBootTest
 internal class RssFeedParserTest {
+
+  @Autowired
+  private lateinit var rssFeedConfigurationProperties: RssFeedConfigurationProperties
+
   @Test
   fun testParseXml() {
     val list = RssFeedParser().parse(ClassPathResource("rss-with-item.xml").url.toExternalForm())
@@ -27,7 +37,7 @@ internal class RssFeedParserTest {
   fun testAllFeeds() {
     val rssFeedParser = RssFeedParser()
     val mapper = jacksonObjectMapper()
-    val feedInLocation: FeedInLocation = mapper.readValue(File("../src/static/api/feeds.json"))
+    val feedInLocation: FeedInLocation = mapper.readValue(File(rssFeedConfigurationProperties.feedUrl))
     feedInLocation.left.plus(feedInLocation.middle).plus(feedInLocation.right).forEach { feed ->
       rssFeedParser.parse(feed.url)
     }
