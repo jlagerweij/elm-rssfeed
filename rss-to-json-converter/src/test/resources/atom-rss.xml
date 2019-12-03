@@ -1,0 +1,10 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <entry>
+    <link rel="alternate" type="text/html" href="https://go.theregister.co.uk/feed/www.theregister.co.uk/2019/11/29/after_four_years_rusty_os_nearly_selfhosting/"/>
+    <title type="html">After four years, Rust-based Redox OS is nearly self-hosting</title>
+  </entry>
+  <entry>
+    <link rel="alternate" type="text/html" href="https://go.theregister.co.uk/feed/www.theregister.co.uk/2019/11/29/black_friday_does_for_uk_banking_sector/"/>
+    <title type="html">You can forget about that Black Friday deal: Brit banks crap out just in time for pay day</title>
+  </entry>
+</feed>
