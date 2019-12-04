@@ -9,17 +9,17 @@ import javax.xml.xpath.XPathFactory
 
 @Component
 class RssFeedParser {
-  fun parse(rssXmlUrl: String): List<FeedItem> {
-    println(rssXmlUrl)
+  fun parse(feed: Feed): Feed {
+    println(feed.url)
 
-    val text = Curl().download(rssXmlUrl)
+    val text = Curl().download(feed.url)
     val factory = DocumentBuilderFactory.newInstance()
     val builder = factory.newDocumentBuilder()
     val doc: Document = builder.parse(text)
 
     doc.documentElement.normalize()
 
-    val feed = mutableListOf<FeedItem>()
+    val feedItems = mutableListOf<FeedItem>()
 
     val xPath = XPathFactory.newInstance().newXPath()
     val items = xPath.compile("//*[local-name()='item']").evaluate(doc.documentElement, XPathConstants.NODESET) as NodeList
@@ -28,17 +28,17 @@ class RssFeedParser {
         if (entry.nodeName == "entry") {
           val link = entry.childNodes.toList().firstOrNull { it.nodeName == "link" }?.attributes?.getNamedItem("href")
           val title = entry.childNodes.toList().firstOrNull { it.nodeName == "title" }
-          feed.add(FeedItem(title, link))
+          feedItems.add(FeedItem(title, link))
         }
       }
     } else {
       items.toList().forEach { entry ->
         val link = entry.childNodes.toList().firstOrNull { it.nodeName == "link" }
         val title = entry.childNodes.toList().firstOrNull { it.nodeName == "title" }
-        feed.add(FeedItem(title, link))
+        feedItems.add(FeedItem(title, link))
       }
     }
 
-    return feed
+    return feed.copy(items = feedItems)
   }
 }

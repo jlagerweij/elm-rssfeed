@@ -3,8 +3,8 @@ package net.lagerwey.rssfeed.rsstojsonconverter
 import org.w3c.dom.Node
 
 class FeedItem(title: Node?, link: Node?) {
-  private val title: String
-  private val link: String
+  val title: String
+  val link: String
 
   init {
     if (title == null) {

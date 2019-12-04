@@ -7,4 +7,5 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties("rssfeed")
 class RssFeedConfigurationProperties {
   lateinit var feedUrl: String
+  lateinit var outputJson: String
 }

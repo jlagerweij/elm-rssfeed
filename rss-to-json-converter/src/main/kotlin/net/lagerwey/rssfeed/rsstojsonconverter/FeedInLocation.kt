@@ -8,6 +8,7 @@ data class FeedInLocation(
 
 data class Feed(
   val id: String,
-  val title: String?,
-  val url: String
+  val title: String? = null,
+  val url: String,
+  val items: List<FeedItem> = emptyList()
 )
