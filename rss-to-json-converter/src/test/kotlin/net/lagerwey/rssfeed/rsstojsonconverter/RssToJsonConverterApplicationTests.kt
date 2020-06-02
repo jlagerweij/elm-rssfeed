@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.io.File
 
-@SpringBootTest
+
+@SpringBootTest(args = ["--run-once"])
 @ActiveProfiles("test")
 class RssToJsonConverterApplicationTests {
 

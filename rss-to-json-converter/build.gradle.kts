@@ -10,8 +10,8 @@ plugins {
 }
 
 group = "net.lagerwey.rssfeed"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+version = "1.0.0-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 val developmentOnly by configurations.creating
 configurations {
@@ -43,12 +43,12 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "1.8"
+    jvmTarget = "11"
   }
 }
 
 tasks.withType<Jar> {
-  enabled = true
+  enabled = false
 }
 tasks.withType<BootJar> {
   archiveClassifier.set("all")

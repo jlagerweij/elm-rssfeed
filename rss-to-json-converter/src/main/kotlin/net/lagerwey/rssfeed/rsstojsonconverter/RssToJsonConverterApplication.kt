@@ -2,6 +2,7 @@ package net.lagerwey.rssfeed.rsstojsonconverter
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -17,14 +18,20 @@ class RssToJsonConverterApplication {
     jacksonObjectMapper: ObjectMapper,
     rssFeedParser: RssFeedParser,
     rssFeedConfiguration: RssFeedConfigurationProperties
-  ) = CommandLineRunner {
-    val feedsInputstream = Curl().download(rssFeedConfiguration.feedUrl)
-    val feedInLocation: FeedInLocation = jacksonObjectMapper.readValue(feedsInputstream)
-    val allFeeds = feedInLocation.left.plus(feedInLocation.middle).plus(feedInLocation.right)
-    allFeeds.forEach {
-      val feed = rssFeedParser.parse(it)
-      writeFeedJson(jacksonObjectMapper, rssFeedConfiguration, feed)
-    }
+  ) = ApplicationRunner {applicationArguments ->
+
+    do {
+      val feedsInputstream = Curl().download(rssFeedConfiguration.feedUrl)
+      val feedInLocation: FeedInLocation = jacksonObjectMapper.readValue(feedsInputstream)
+      val allFeeds = feedInLocation.left.plus(feedInLocation.middle).plus(feedInLocation.right)
+      allFeeds.forEach {
+        val feed = rssFeedParser.parse(it)
+        writeFeedJson(jacksonObjectMapper, rssFeedConfiguration, feed)
+      }
+      if (!applicationArguments.containsOption("run-once")) {
+        Thread.sleep(5 * 60 * 1000)
+      }
+    } while(!applicationArguments.containsOption("run-once"))
   }
 
   private fun writeFeedJson(

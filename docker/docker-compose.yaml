@@ -1,7 +1,7 @@
 version: '3'
 services:
   convert-rss-to-json:
-    image: elm-rssfeed-convert-rss-to-json:latest
+    image: rss-to-json-converter:0.0.1-SNAPSHOT
     volumes:
       - feeds-volume:/app/api/feeds/
 
