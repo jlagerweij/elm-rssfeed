@@ -1,5 +1,9 @@
 # /etc/cron.d/convert-rss-to-json-cron: crontab fragment for converting
 # RSS feeds into JSON files for elm-rssfeed
 
-# Look for and purge old sessions every 30 minutes
-*/5 * * * *     root   [ -f /app/convert-rss-to-json.php ] && (cd /app; php convert-rss-to-json.php)  > /proc/1/fd/1 2>/proc/1/fd/2
+# 15    – every 15 minutes
+# 07-22 – 7 am -> 10 pm
+#     * – Every day
+#     * – Every month
+#     * – Every day of the week
+*/15 07-22 * * *     root   [ -f /app/convert-rss-to-json.php ] && (cd /app; php convert-rss-to-json.php)  > /proc/1/fd/1 2>/proc/1/fd/2

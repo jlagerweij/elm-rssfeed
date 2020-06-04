@@ -51,7 +51,7 @@ url paths queryParams =
 
 feeds : Endpoint
 feeds =
-    url [ "feeds.json" ] []
+    url [ "config.json" ] []
 
 
 articles : String -> Endpoint

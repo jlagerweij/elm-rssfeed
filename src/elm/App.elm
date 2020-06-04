@@ -2,7 +2,7 @@ module App exposing (Model, Msg(..), getFeeds, init, subscriptions, update, upda
 
 import Feeds
 import Feeds.Article as Articles exposing (Article, ArticlesWebData)
-import Feeds.Feed as Feeds exposing (Feed, Feeds, FeedsWebData)
+import Feeds.Feed as Feeds exposing (Config, ConfigWebData, Feed)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Http exposing (Error(..))
@@ -10,7 +10,7 @@ import RemoteData exposing (RemoteData(..), WebData)
 
 
 type alias Model =
-    { feedConfigWebData : FeedsWebData
+    { feedConfigWebData : ConfigWebData
     }
 
 
@@ -27,7 +27,7 @@ subscriptions _ =
 
 
 type Msg
-    = FeedsResponse FeedsWebData
+    = FeedsResponse ConfigWebData
     | SingleFeedResponse Feed ArticlesWebData
 
 
@@ -57,7 +57,7 @@ update msg model =
                     ( model, Cmd.none )
 
 
-updateFeedConfigs : String -> ArticlesWebData -> Feeds -> Feeds
+updateFeedConfigs : String -> ArticlesWebData -> Config -> Config
 updateFeedConfigs feedConfigId articles feedConfigs =
     let
         updateFeed =
@@ -85,7 +85,7 @@ updateFeedItems feedConfigId feedItemList feedConfig =
 --
 
 
-getFeeds : Feeds -> Cmd Msg
+getFeeds : Config -> Cmd Msg
 getFeeds feedConfigs =
     (feedConfigs.left ++ feedConfigs.middle ++ feedConfigs.right)
         |> List.map (\feed -> Articles.list (RemoteData.fromResult >> SingleFeedResponse feed) feed.id)

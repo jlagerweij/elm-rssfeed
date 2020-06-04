@@ -13,7 +13,7 @@ import RemoteData exposing (WebData)
 -- TYPES
 
 
-type alias Feeds =
+type alias Config =
     { left : List Feed
     , middle : List Feed
     , right : List Feed
@@ -29,15 +29,15 @@ type alias Feed =
     }
 
 
-type alias FeedsWebData =
-    WebData Feeds
+type alias ConfigWebData =
+    WebData Config
 
 
 
 -- LIST
 
 
-list : (Result Http.Error Feeds -> msg) -> Cmd msg
+list : (Result Http.Error Config -> msg) -> Cmd msg
 list toMsg =
     Api.get
         Endpoint.feeds
@@ -49,9 +49,9 @@ list toMsg =
 -- SERIALIZATION
 
 
-decodeFeeds : Decoder Feeds
+decodeFeeds : Decoder Config
 decodeFeeds =
-    Decode.succeed Feeds
+    Decode.succeed Config
         |> required "left" (Decode.list (decodeFeed "left"))
         |> required "middle" (Decode.list (decodeFeed "middle"))
         |> required "right" (Decode.list (decodeFeed "right"))

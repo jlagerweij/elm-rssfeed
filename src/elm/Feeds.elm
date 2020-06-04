@@ -1,12 +1,12 @@
 module Feeds exposing (..)
 
 import Articles
-import Feeds.Feed exposing (Feed, Feeds)
+import Feeds.Feed exposing (Config, Feed)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, id)
 
 
-view : Feeds -> Html msg
+view : Config -> Html msg
 view feeds =
     div [ class "dt dt--fixed sans-serif" ]
         [ viewInColumn "left" feeds.left

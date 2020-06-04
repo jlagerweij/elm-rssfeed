@@ -2,11 +2,13 @@ version: '3'
 services:
   convert-rss-to-json:
     image: elm-rssfeed-convert-rss-to-json:latest
+    container_name: rssfeed_convert-rss-to-json
     volumes:
       - feeds-volume:/app/api/feeds/
 
   web:
     image: elm-rssfeed:latest
+    container_name: web
     volumes:
       - feeds-volume:/usr/share/nginx/html/api/feeds/
     ports:

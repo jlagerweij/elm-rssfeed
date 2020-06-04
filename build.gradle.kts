@@ -21,29 +21,41 @@ configure<ComposeExtension> {
 }
 
 tasks {
+  val npmInstall by existing
   register<NodeTask>("localDev") {
-    dependsOn("npmInstall")
+    dependsOn(npmInstall)
     group = "development"
     description = "Start local development server on port 8080."
     setScript(file("node_modules/webpack-dev-server/bin/webpack-dev-server"))
     setArgs(listOf("--hot"))
   }
 
-  register<Copy>("assemble") {
-    dependsOn("webpack")
+  val webpack by registering(NpmTask::class) {
+    dependsOn(npmInstall)
+    description = "Assembles this project."
+    group = "build"
+    inputs.dir("src")
+    inputs.file("elm.json")
+    inputs.file("webpack.config.js")
+    outputs.dir("${buildDir}/webpack")
+    setNpmCommand("run-script", "prod")
+  }
+
+  val assemble by registering(Copy::class) {
+    dependsOn(webpack)
     description = "Assembles the outputs of this project."
     group = "build"
     from("build/webpack") {
       into("web")
     }
-    from("src/static/api/feeds.json") {
+    from("src/static/api/config.json") {
       into("web/api/")
     }
     from("docker/elm-rssfeed")
     into("${buildDir}/dist")
   }
 
-  register<Copy>("assembleConvertRssToJson") {
+  val assembleConvertRssToJson by registering(Copy::class) {
     from("docker/convert-rss-to-json") {
       into("/")
     }
@@ -54,13 +66,13 @@ tasks {
   }
 
   register<DockerBuildImage>("buildConvertRssToJson") {
-    dependsOn("assembleConvertRssToJson")
+    dependsOn(assembleConvertRssToJson)
     inputDir.set(file("${buildDir}/convert-rss-to-json"))
     tags.add("elm-rssfeed-convert-rss-to-json:latest")
   }
 
   register<DockerBuildImage>("buildElmRssFeed") {
-    dependsOn("assemble")
+    dependsOn(assemble)
     inputDir.set(file("${buildDir}/dist"))
     tags.add("elm-rssfeed:latest")
   }
@@ -80,19 +92,8 @@ tasks {
     }
   }
 
-  register<NpmTask>("webpack") {
-    dependsOn("npmInstall")
-    description = "Assembles this project."
-    group = "build"
-    inputs.dir("src")
-    inputs.file("elm.json")
-    inputs.file("webpack.config.js")
-    outputs.dir("${buildDir}/webpack")
-    setNpmCommand("run-script", "prod")
-  }
-
   register("publish") {
-    dependsOn("assemble")
+    dependsOn(assemble)
     description = "Publish output of this project to a server."
     group = "build"
     doLast {
