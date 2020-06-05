@@ -2,8 +2,8 @@
 # RSS feeds into JSON files for elm-rssfeed
 
 # 15    – every 15 minutes
-# 07-22 – 7 am -> 10 pm
+# 07-22 – 5 am -> 8 pm UTC
 #     * – Every day
 #     * – Every month
 #     * – Every day of the week
-*/15 07-22 * * *     root   [ -f /app/convert-rss-to-json.php ] && (cd /app; php convert-rss-to-json.php)  > /proc/1/fd/1 2>/proc/1/fd/2
+*/15 05-20 * * *     root   [ -f /app/convert-rss-to-json.php ] && (cd /app; php convert-rss-to-json.php)  > /proc/1/fd/1 2>/proc/1/fd/2
