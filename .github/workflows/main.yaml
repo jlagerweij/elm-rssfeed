@@ -25,5 +25,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Docker push
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed
+    - name: Docker tag and push
+      run: |
+        docker tag elm-rssfeed:latest ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed
+        docker push ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed
