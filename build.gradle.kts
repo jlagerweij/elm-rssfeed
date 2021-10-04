@@ -2,7 +2,6 @@ import com.avast.gradle.dockercompose.ComposeExtension
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.moowork.gradle.node.NodeExtension
 import com.moowork.gradle.node.npm.NpmTask
-import com.moowork.gradle.node.task.NodeTask
 
 plugins {
   id("com.github.node-gradle.node").version("2.2.0")
@@ -11,7 +10,7 @@ plugins {
 }
 
 configure<NodeExtension> {
-  version = "10.16.3"
+  version = "14.15.3"
   download = true
 }
 
@@ -21,13 +20,13 @@ configure<ComposeExtension> {
 }
 
 tasks {
-  val npmInstall by existing
-  register<NodeTask>("localDev") {
+
+  register<com.moowork.gradle.node.npm.NpxTask>("localDev") {
     dependsOn(npmInstall)
     group = "development"
     description = "Start local development server on port 8080."
-    setScript(file("node_modules/webpack-dev-server/bin/webpack-dev-server"))
-    setArgs(listOf("--hot"))
+    command = "webpack"
+    setArgs(listOf("serve"))
   }
 
   val webpack by registering(NpmTask::class) {

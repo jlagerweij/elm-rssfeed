@@ -1,6 +1,10 @@
 {
   "left" : [
     {
+      "id": "gpupdate",
+      "url": "https://nl.motorsport.com/rss/all/news"
+    },
+    {
       "id": "tweakers-nieuws",
       "title": "Tweakers",
       "url": "http://tweakers.net/feeds/nieuws.xml"

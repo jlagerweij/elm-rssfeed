@@ -1,16 +1,12 @@
 const path = require("path");
-const webpack = require("webpack");
-const merge = require("webpack-merge");
+const { merge } = require('webpack-merge');
 const elmMinify = require("elm-minify");
 
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// to extract the css as a separate file
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const MODE =
-  process.env.npm_lifecycle_event === "prod" ? "production" : "development";
+const MODE = process.env.npm_lifecycle_event === "prod" ? "production" : "development";
 const withDebug = !process.env["npm_config_nodebug"];
 // this may help for Yarn users
 // var withDebug = !npmParams.includes("--nodebug");
@@ -40,34 +36,9 @@ const common = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        exclude: [/elm-stuff/, /node_modules/],
-        // see https://github.com/webpack-contrib/css-loader#url
-        loaders: ["style-loader", "css-loader?url=false", "sass-loader"]
-      },
-      {
         test: /\.css$/,
         exclude: [/elm-stuff/, /node_modules/],
-        loaders: ["style-loader", "css-loader?url=false"]
-      },
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        exclude: [/elm-stuff/, /node_modules/],
-        loader: "url-loader",
-        options: {
-          limit: 10000,
-          mimetype: "application/font-woff"
-        }
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        exclude: [/elm-stuff/, /node_modules/],
-        loader: "file-loader"
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        exclude: [/elm-stuff/, /node_modules/],
-        loader: "file-loader"
+        use: ["style-loader", "css-loader?url=false"]
       }
     ]
   }
@@ -76,13 +47,9 @@ const common = {
 if (MODE === "development") {
   module.exports = merge(common, {
     plugins: [
-      // Suggested for hot-loading
-      new webpack.NamedModulesPlugin(),
-      // Prevents compilation errors causing the hot loader to lose state
-      new webpack.NoEmitOnErrorsPlugin(),
-      new CopyWebpackPlugin([
-        {from: "src/static/api/", to: "static/api/"}
-      ]),
+      new CopyWebpackPlugin( {
+        patterns: [ {from: "src/static/api/", to: "static/api/"} ]
+      }),
     ],
     module: {
       rules: [
@@ -90,14 +57,11 @@ if (MODE === "development") {
           test: /\.elm$/,
           exclude: [/elm-stuff/, /node_modules/],
           use: [
-            { loader: "elm-hot-webpack-loader" },
+            { loader: 'elm-hot-webpack-loader' },
             {
-              loader: "elm-webpack-loader",
+              loader: 'elm-webpack-loader',
               options: {
-                // add Elm's debug overlay to output
-                debug: withDebug,
-                //
-                forceWatch: true
+                cwd: __dirname
               }
             }
           ]
@@ -132,13 +96,8 @@ if (MODE === "production") {
       // Minify elm code
       new elmMinify.WebpackPlugin(),
       // Copy static assets
-      new CopyWebpackPlugin([
-        {from: "src/static/manifest.json", to: "manifest.json"}
-      ]),
-      new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: "[name]-[hash].css"
+      new CopyWebpackPlugin({
+        patterns : [ { from : "src/static/manifest.json", to : "manifest.json" } ]
       })
     ],
     module: {
@@ -153,23 +112,6 @@ if (MODE === "production") {
             }
           }
         },
-        // {
-        //   test: /\.css$/,
-        //   exclude: [/elm-stuff/, /node_modules/],
-        //   loaders: [
-        //     MiniCssExtractPlugin.loader,
-        //     "css-loader?url=false"
-        //   ]
-        // },
-        {
-          test: /\.scss$/,
-          exclude: [/elm-stuff/, /node_modules/],
-          loaders: [
-            MiniCssExtractPlugin.loader,
-            "css-loader?url=false",
-            "sass-loader"
-          ]
-        }
       ]
     }
   });

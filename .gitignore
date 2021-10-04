@@ -6,4 +6,4 @@ tmp/
 dist/
 build/
 elm-taco-master/
-src/static/api/feed-*
+src/static/api/feeds/*
