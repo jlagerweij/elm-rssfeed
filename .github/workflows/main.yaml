@@ -25,7 +25,12 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Docker tag and push
+    - name: Docker tag and push elm-rssfeed-convert-rss-to-json
+      run: |
+        docker tag elm-rssfeed-convert-rss-to-json:latest ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed-convert-rss-to-json
+        docker push ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed-convert-rss-to-json
+
+    - name: Docker tag and push elm-rssfeed
       run: |
         docker tag elm-rssfeed:latest ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed
         docker push ${{ secrets.DOCKER_USERNAME }}/elm-rssfeed
