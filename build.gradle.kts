@@ -1,13 +1,13 @@
 import com.avast.gradle.dockercompose.ComposeExtension
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.moowork.gradle.node.NodeExtension
-import com.moowork.gradle.node.npm.NpmTask
-import com.moowork.gradle.node.task.NodeTask
+import com.github.gradle.node.NodeExtension
+import com.github.gradle.node.npm.task.NpmTask
+import com.github.gradle.node.task.NodeTask
 
 plugins {
-  id("com.github.node-gradle.node").version("2.2.0")
+  id("com.github.node-gradle.node").version("7.0.2")
   id("com.bmuschko.docker-remote-api").version("9.4.0")
-  id("com.avast.gradle.docker-compose").version("0.9.5")
+  id("com.avast.gradle.docker-compose").version("0.17.6")
 }
 
 configure<NodeExtension> {
@@ -16,7 +16,7 @@ configure<NodeExtension> {
 }
 
 configure<ComposeExtension> {
-  projectName = "elm-rssfeed"
+  setProjectName("elm-rssfeed")
   useComposeFiles = listOf("docker/docker-compose.yaml")
 }
 
@@ -26,8 +26,8 @@ tasks {
     dependsOn(npmInstall)
     group = "development"
     description = "Start local development server on port 8080."
-    setScript(file("node_modules/webpack-dev-server/bin/webpack-dev-server"))
-    setArgs(listOf("--hot"))
+    script = file("node_modules/webpack-dev-server/bin/webpack-dev-server")
+    args = listOf("--hot")
   }
 
   val webpack by registering(NpmTask::class) {
@@ -38,7 +38,7 @@ tasks {
     inputs.file("elm.json")
     inputs.file("webpack.config.js")
     outputs.dir(project.layout.buildDirectory.dir("webpack"))
-    setNpmCommand("run-script", "prod")
+    npmCommand = listOf("run-script", "prod")
   }
 
   val assemble by registering(Copy::class) {
