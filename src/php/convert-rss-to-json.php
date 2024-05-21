@@ -47,7 +47,7 @@ function getLinkAndTitleFromEntry($feed, $xml)
 }
 
 function getContents($url) {
-  echo "URL: " . $url . "\t";
+  echo "URL: " . str_pad($url, 80) . "\t";
 
   $context = stream_context_create(
     array(
