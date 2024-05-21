@@ -44,13 +44,23 @@ function getLinkAndTitleFromEntry($feed, $xml)
   if (count($feed) < 10) {
     list($item, $feed) = addItem($title, $link, $feed);
   }
+}
 
+function getContents($url) {
+  echo "URL: " . $url . "\t";
+
+  $context = stream_context_create(
+    array(
+      'http' => array(
+        'user_agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:126.0) Gecko/20100101 Firefox/126.0',
+      ),
+    ));
+
+  return file_get_contents($url, false, $context);
 }
 
 foreach (array_merge($feedConfigs->left, $feedConfigs->middle, $feedConfigs->right) as $feedConfig) {
-  echo "URL: " . $feedConfig->url . "\n";
-
-  $xml = file_get_contents($feedConfig->url);
+  $xml = getContents($feedConfig->url);
   if (strpos($xml, 'ISO-8859-15') !== false || strpos($xml, 'iso-8859-15') !== false) {
     $xml = iconv("ISO-8859-15", "UTF-8", $xml);
     $xml = str_replace("ISO-8859-15", "UTF-8", $xml);

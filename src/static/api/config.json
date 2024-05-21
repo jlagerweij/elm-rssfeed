@@ -3,25 +3,21 @@
     {
       "id": "tweakers-nieuws",
       "title": "Tweakers",
-      "url": "http://tweakers.net/feeds/nieuws.xml"
+      "url": "https://tweakers.net/feeds/nieuws.xml"
     },
     {
       "id": "tweakers-meuktracker",
       "title": "Meuktracker",
-      "url": "http://tweakers.net/feeds/meuktracker.xml"
+      "url": "https://tweakers.net/feeds/meuktracker.xml"
     },
     {
-      "id": "webwereld",
-      "title": "Webwereld",
-      "url": "http://feeds.webwereld.nl/webwereld"
+      "id": "the-register",
+      "url": "https://www.theregister.com/headlines.atom"
     },
     {
-      "id": "theregister",
-      "url": "http://www.theregister.co.uk/headlines.atom"
-    },
-    {
-      "id": "nosjournaal",
-      "url": "http://feeds.nos.nl/nosjournaal"
+      "id": "nos-nieuws-algemeen",
+      "title": "NOS Nieuws algemeen",
+      "url": "https://feeds.nos.nl/nosnieuwsalgemeen"
     },
     {
       "id": "volkskrant-sport",
@@ -30,46 +26,46 @@
       "location": "left"
     },
     {
-      "id": "degelderlander-voorpagina",
+      "id": "de-gelderlander-voorpagina",
       "title": "De Gelderlander voorpagina",
       "url": "https://www.gelderlander.nl/home/rss.xml"
     },
     {
-      "id": "degelderlander-algemeen",
-      "title": "De Gelderlander algemeen",
-      "url": "https://www.gelderlander.nl/algemeen/rss.xml"
+      "id": "de-gelderlander-nieuws",
+      "title": "De Gelderlander nieuws",
+      "url": "https://www.gelderlander.nl/nieuws/rss.xml"
     },
     {
-      "id": "degelderlander-arnhem",
+      "id": "de-gelderlander-arnhem",
       "title": "De Gelderlander Arnhem",
       "url": "https://www.gelderlander.nl/arnhem-e-o/rss.xml"
     },
     {
-      "id": "degelderlander-sport",
+      "id": "de-gelderlander-sport",
       "title": "De Gelderlander sport",
       "url": "https://www.gelderlander.nl/sport/rss.xml"
     },
     {
-      "id": "ycombinator",
+      "id": "y-combinator",
       "url": "https://news.ycombinator.com/rss"
     }
   ],
   "middle" : [
     {
       "id": "slashdot",
-      "url": "http://rss.slashdot.org/Slashdot/slashdot"
+      "url": "https://rss.slashdot.org/Slashdot/slashdot"
     },
     {
-      "id": "foknieuws",
-      "url": "http://rss.fok.nl/feeds/nieuws"
+      "id": "fok-nieuws",
+      "url": "https://rss.fok.nl/feeds/nieuws"
     },
     {
       "id": "nu-tech",
-      "url": "http://www.nu.nl/rss/tech"
+      "url": "https://www.nu.nl/rss/tech"
     },
     {
       "id": "nu-algemeen",
-      "url": "http://www.nu.nl/rss/algemeen"
+      "url": "https://www.nu.nl/rss/algemeen"
     },
     {
       "id": "volkskrant-voorpagina",
@@ -77,8 +73,8 @@
       "url": "https://www.volkskrant.nl/voorpagina/rss.xml"
     },
     {
-      "id": "infoq",
-      "url": "http://www.infoq.com/rss/rss.action?token=JtvZBqKk5Ep8CPJedwgPjaEfswT20aqZ"
+      "id": "info-q",
+      "url": "https://feed.infoq.com/?token=JtvZBqKk5Ep8CPJedwgPjaEfswT20aqZ"
     },
     {
       "id": "theserverside-content-syndication",
@@ -91,10 +87,6 @@
   ],
   "right" : [
     {
-      "id": "dagaanbieding",
-      "url": "http://www.dagaanbieding.net/rss.xml"
-    },
-    {
       "id": "volkskrant-nieuws-achtergrond",
       "title": "Volkskrant nieuws en achtergrond",
       "url": "https://www.volkskrant.nl/nieuws-achtergrond/rss.xml"
@@ -105,29 +97,35 @@
       "url": "https://www.volkskrant.nl/columns-opinie/rss.xml"
     },
     {
-      "id": "volkskrant-wetenschap",
-      "title": "Volkskrant wetenschap",
-      "url": "https://www.volkskrant.nl/wetenschap/rss.xml"
+      "id": "volkskrant-verder-vandaag",
+      "title": "Volkskrant voorpagina",
+      "url": "https://www.volkskrant.nl/voorpagina/rss.xml"
     },
     {
       "id": "nu-formule-1",
-      "url": "http://www.nu.nl/rss/formule-1"
+      "url": "https://www.nu.nl/rss/formule-1"
     },
     {
       "id": "gpupdate",
-      "url": "http://feeds.gpupdate.net/nl/rss.xml"
+      "url": "https://nl.motorsport.com/rss/all/news"
     },
     {
-      "id": "raceexpress",
-      "url": "http://www.racexpress.nl/rsscontent/content.xml"
+      "id": "racexpress",
+      "url": "https://www.racexpress.nl/rsscontent/content.xml"
     },
     {
       "id": "autoweek-nieuws",
-      "url": "http://www.autoweek.nl/rss/autonieuws"
+      "url": "https://www.autoweek.nl/rss"
     },
     {
-      "id": "autoweek-weblog",
-      "url": "http://www.autoweek.nl/rss/weblog"
+      "id": "f1headlines",
+      "title": "F1 Headlines",
+      "url": "https://www.f1headlines.nl/rss.xml"
+    },
+    {
+      "id": "gradle-releases",
+      "title": "Gradle Releases",
+      "url": "https://github.com/gradle/gradle/releases.atom"
     }
   ]
 }
