@@ -6,7 +6,7 @@ import com.moowork.gradle.node.task.NodeTask
 
 plugins {
   id("com.github.node-gradle.node").version("2.2.0")
-  id("com.bmuschko.docker-remote-api").version("5.2.0")
+  id("com.bmuschko.docker-remote-api").version("9.4.0")
   id("com.avast.gradle.docker-compose").version("0.9.5")
 }
 
@@ -37,7 +37,7 @@ tasks {
     inputs.dir("src")
     inputs.file("elm.json")
     inputs.file("webpack.config.js")
-    outputs.dir("${buildDir}/webpack")
+    outputs.dir(project.layout.buildDirectory.dir("webpack"))
     setNpmCommand("run-script", "prod")
   }
 
@@ -52,7 +52,7 @@ tasks {
       into("web/api/")
     }
     from("docker/elm-rssfeed")
-    into("${buildDir}/dist")
+    into(project.layout.buildDirectory.dir("dist"))
   }
 
   val assembleConvertRssToJson by registering(Copy::class) {
@@ -62,19 +62,19 @@ tasks {
     from("src/php/convert-rss-to-json.php") {
       into("/")
     }
-    into("${buildDir}/convert-rss-to-json")
+    into(project.layout.buildDirectory.dir("convert-rss-to-json"))
   }
 
   register<DockerBuildImage>("buildConvertRssToJson") {
     dependsOn(assembleConvertRssToJson)
-    inputDir.set(file("${buildDir}/convert-rss-to-json"))
-    tags.add("elm-rssfeed-convert-rss-to-json:latest")
+    inputDir = project.layout.buildDirectory.dir("convert-rss-to-json")
+    images.add("elm-rssfeed-convert-rss-to-json:latest")
   }
 
   register<DockerBuildImage>("buildElmRssFeed") {
     dependsOn(assemble)
-    inputDir.set(file("${buildDir}/dist"))
-    tags.add("elm-rssfeed:latest")
+    inputDir = project.layout.buildDirectory.dir("dist")
+    images.add("elm-rssfeed:latest")
   }
 
   register("build") {
